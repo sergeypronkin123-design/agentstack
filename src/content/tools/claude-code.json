@@ -14,8 +14,14 @@
   "docs": "https://docs.claude.com/en/docs/claude-code",
   "open_source": false,
   "license": "Proprietary",
-  "languages": ["any"],
-  "models_supported": ["claude-opus-4-6", "claude-sonnet-4-6", "claude-haiku-4-5"],
+  "languages": [
+    "any"
+  ],
+  "models_supported": [
+    "claude-opus-4-6",
+    "claude-sonnet-4-6",
+    "claude-haiku-4-5"
+  ],
   "features": [
     "Subagents (custom roles)",
     "Slash commands",
@@ -25,7 +31,14 @@
     "Plan mode for review-before-apply",
     "Multi-file edits with diff approval"
   ],
-  "integrations": ["MCP", "GitHub", "Linear", "Slack", "Vercel", "Figma"],
+  "integrations": [
+    "MCP",
+    "GitHub",
+    "Linear",
+    "Slack",
+    "Vercel",
+    "Figma"
+  ],
   "pros": [
     "Tightest integration with frontier Anthropic models",
     "Excellent at long, multi-step refactors",
@@ -35,7 +48,16 @@
     "CLI-first; UI surface limited to terminal",
     "Subscription-only, no community version"
   ],
-  "best_for": ["Senior engineers refactoring large codebases", "Agentic workflows", "Plugin authors"],
-  "avoid_if": ["You need a free OSS alternative", "You prefer point-and-click IDE UX"],
-  "last_verified": "2026-04-30"
+  "best_for": [
+    "Senior engineers refactoring large codebases",
+    "Agentic workflows",
+    "Plugin authors"
+  ],
+  "avoid_if": [
+    "You need a free OSS alternative",
+    "You prefer point-and-click IDE UX"
+  ],
+  "last_verified": "2026-04-30",
+  "github_stars": 119355,
+  "github_last_push": "2026-04-29"
 }

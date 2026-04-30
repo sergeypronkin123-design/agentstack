@@ -13,8 +13,14 @@
   "docs": "https://docs.continue.dev",
   "open_source": true,
   "license": "Apache-2.0",
-  "languages": ["any"],
-  "models_supported": ["claude-sonnet-4-6", "gpt-5", "any-via-openai-compatible"],
+  "languages": [
+    "any"
+  ],
+  "models_supported": [
+    "claude-sonnet-4-6",
+    "gpt-5",
+    "any-via-openai-compatible"
+  ],
   "features": [
     "Custom slash commands",
     "Context providers (codebase, docs, terminal, etc.)",
@@ -23,7 +29,11 @@
     "Continue Hub for sharing rules/prompts",
     "Local model via Ollama"
   ],
-  "integrations": ["Ollama", "OpenRouter", "Continue Hub"],
+  "integrations": [
+    "Ollama",
+    "OpenRouter",
+    "Continue Hub"
+  ],
   "pros": [
     "Most flexible config of any OSS tool",
     "Works in both VS Code and JetBrains",
@@ -33,7 +43,16 @@
     "Setup overhead — configuration is its strength and curse",
     "Autocomplete trails Cursor/Copilot in latency"
   ],
-  "best_for": ["JetBrains users", "Teams who want shared prompt library", "Privacy-conscious devs"],
-  "avoid_if": ["You want zero config", "You don't use VS Code or JetBrains"],
-  "last_verified": "2026-04-30"
+  "best_for": [
+    "JetBrains users",
+    "Teams who want shared prompt library",
+    "Privacy-conscious devs"
+  ],
+  "avoid_if": [
+    "You want zero config",
+    "You don't use VS Code or JetBrains"
+  ],
+  "last_verified": "2026-04-30",
+  "github_stars": 32896,
+  "github_last_push": "2026-04-29"
 }

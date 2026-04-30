@@ -12,8 +12,15 @@
   "docs": "https://docs.roocode.com",
   "open_source": true,
   "license": "Apache-2.0",
-  "languages": ["any"],
-  "models_supported": ["claude-sonnet-4-6", "gpt-5", "any-via-openrouter", "any-local-via-ollama"],
+  "languages": [
+    "any"
+  ],
+  "models_supported": [
+    "claude-sonnet-4-6",
+    "gpt-5",
+    "any-via-openrouter",
+    "any-local-via-ollama"
+  ],
   "features": [
     "Custom modes (Architect, Code, Ask, Debug)",
     "Mode marketplace",
@@ -22,7 +29,12 @@
     "MCP server support",
     "Multi-file refactor"
   ],
-  "integrations": ["MCP", "OpenRouter", "Ollama", "LM Studio"],
+  "integrations": [
+    "MCP",
+    "OpenRouter",
+    "Ollama",
+    "LM Studio"
+  ],
   "pros": [
     "Most active fork in Cline lineage",
     "Mode-switching makes it flexible",
@@ -32,7 +44,15 @@
     "Some features lag upstream Cline",
     "Less brand recognition"
   ],
-  "best_for": ["Cline users wanting more flexibility", "Teams with diverse task types"],
-  "avoid_if": ["You want stable, slower-moving releases", "You need vendor support SLA"],
-  "last_verified": "2026-04-30"
+  "best_for": [
+    "Cline users wanting more flexibility",
+    "Teams with diverse task types"
+  ],
+  "avoid_if": [
+    "You want stable, slower-moving releases",
+    "You need vendor support SLA"
+  ],
+  "last_verified": "2026-04-30",
+  "github_stars": 23778,
+  "github_last_push": "2026-04-30"
 }

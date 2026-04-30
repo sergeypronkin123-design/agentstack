@@ -13,8 +13,14 @@
   "docs": "https://docs.codeium.com/windsurf",
   "open_source": false,
   "license": "Proprietary",
-  "languages": ["any"],
-  "models_supported": ["claude-sonnet-4-6", "gpt-5", "windsurf-internal"],
+  "languages": [
+    "any"
+  ],
+  "models_supported": [
+    "claude-sonnet-4-6",
+    "gpt-5",
+    "windsurf-internal"
+  ],
   "features": [
     "Cascade — agentic flow editing",
     "Supercomplete (multi-line autocomplete)",
@@ -22,7 +28,12 @@
     "MCP server support",
     "Built on Codeium's enterprise stack"
   ],
-  "integrations": ["MCP", "GitHub", "GitLab", "Bitbucket"],
+  "integrations": [
+    "MCP",
+    "GitHub",
+    "GitLab",
+    "Bitbucket"
+  ],
   "pros": [
     "Smooth flow-state UX",
     "Strong enterprise/SOC 2 story",
@@ -32,7 +43,13 @@
     "Less plugin ecosystem than Cursor",
     "Internal model can lag behind frontier"
   ],
-  "best_for": ["Enterprise-grade compliance needs", "Teams migrating from VS Code"],
-  "avoid_if": ["You need MCP-rich ecosystem", "You prefer best-in-class autocomplete (try Cursor)"],
+  "best_for": [
+    "Enterprise-grade compliance needs",
+    "Teams migrating from VS Code"
+  ],
+  "avoid_if": [
+    "You need MCP-rich ecosystem",
+    "You prefer best-in-class autocomplete (try Cursor)"
+  ],
   "last_verified": "2026-04-30"
 }

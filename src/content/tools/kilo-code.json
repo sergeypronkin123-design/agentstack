@@ -12,8 +12,15 @@
   "docs": "https://docs.kilocode.ai",
   "open_source": true,
   "license": "Apache-2.0",
-  "languages": ["any"],
-  "models_supported": ["claude-sonnet-4-6", "gpt-5", "deepseek-v3.5", "any-via-openrouter"],
+  "languages": [
+    "any"
+  ],
+  "models_supported": [
+    "claude-sonnet-4-6",
+    "gpt-5",
+    "deepseek-v3.5",
+    "any-via-openrouter"
+  ],
   "features": [
     "Modes (similar to Roo)",
     "Polished diff UI",
@@ -21,7 +28,11 @@
     "Codebase indexing",
     "Multi-model routing per task type"
   ],
-  "integrations": ["MCP", "OpenRouter", "Ollama"],
+  "integrations": [
+    "MCP",
+    "OpenRouter",
+    "Ollama"
+  ],
   "pros": [
     "Combines best of Cline lineage with smoother UX",
     "Fast-moving releases",
@@ -31,7 +42,14 @@
     "Younger project — fewer plugins than Roo",
     "Documentation still maturing"
   ],
-  "best_for": ["Devs wanting Cline UX with less friction", "MCP-heavy workflows"],
-  "avoid_if": ["You need very stable, slow-moving releases"],
-  "last_verified": "2026-04-30"
+  "best_for": [
+    "Devs wanting Cline UX with less friction",
+    "MCP-heavy workflows"
+  ],
+  "avoid_if": [
+    "You need very stable, slow-moving releases"
+  ],
+  "last_verified": "2026-04-30",
+  "github_stars": 18735,
+  "github_last_push": "2026-04-30"
 }

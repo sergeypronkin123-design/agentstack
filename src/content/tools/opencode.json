@@ -12,8 +12,16 @@
   "docs": "https://opencode.ai/docs",
   "open_source": true,
   "license": "MIT",
-  "languages": ["any"],
-  "models_supported": ["claude-sonnet-4-6", "claude-opus-4-6", "gpt-5", "deepseek-v3.5", "any-local-via-ollama"],
+  "languages": [
+    "any"
+  ],
+  "models_supported": [
+    "claude-sonnet-4-6",
+    "claude-opus-4-6",
+    "gpt-5",
+    "deepseek-v3.5",
+    "any-local-via-ollama"
+  ],
   "features": [
     "Subagents (.opencode/agent/)",
     "Slash commands (.opencode/command/)",
@@ -22,7 +30,13 @@
     "Hooks & lifecycle events",
     "Session persistence"
   ],
-  "integrations": ["MCP", "GitHub", "Linear", "Slack", "Vercel"],
+  "integrations": [
+    "MCP",
+    "GitHub",
+    "Linear",
+    "Slack",
+    "Vercel"
+  ],
   "pros": [
     "Closest OSS analog to Claude Code",
     "Compatible with Claude Code's .claude/agents/ format",
@@ -32,7 +46,16 @@
     "Smaller community than Claude Code",
     "Some plugins still maturing"
   ],
-  "best_for": ["Teams wanting Claude Code UX with OSS", "Self-hosters", "Plugin authors"],
-  "avoid_if": ["You want enterprise SLAs", "You prefer GUI-first"],
-  "last_verified": "2026-04-30"
+  "best_for": [
+    "Teams wanting Claude Code UX with OSS",
+    "Self-hosters",
+    "Plugin authors"
+  ],
+  "avoid_if": [
+    "You want enterprise SLAs",
+    "You prefer GUI-first"
+  ],
+  "last_verified": "2026-04-30",
+  "github_stars": 152221,
+  "github_last_push": "2026-04-30"
 }

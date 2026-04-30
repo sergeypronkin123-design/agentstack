@@ -12,8 +12,17 @@
   "docs": "https://docs.cline.bot",
   "open_source": true,
   "license": "Apache-2.0",
-  "languages": ["any"],
-  "models_supported": ["claude-sonnet-4-6", "gpt-5", "deepseek-v3.5", "qwen-3-coder", "llama-3.3", "any-via-openrouter"],
+  "languages": [
+    "any"
+  ],
+  "models_supported": [
+    "claude-sonnet-4-6",
+    "gpt-5",
+    "deepseek-v3.5",
+    "qwen-3-coder",
+    "llama-3.3",
+    "any-via-openrouter"
+  ],
   "features": [
     "Plan mode + Act mode",
     "Diff preview before file write",
@@ -23,7 +32,12 @@
     "Custom system prompts",
     ".clinerules per-project"
   ],
-  "integrations": ["MCP", "OpenRouter", "Ollama", "LM Studio"],
+  "integrations": [
+    "MCP",
+    "OpenRouter",
+    "Ollama",
+    "LM Studio"
+  ],
   "pros": [
     "Fully transparent — every action approval-gated",
     "Bring-your-own-key, any model",
@@ -33,7 +47,16 @@
     "Slower than tab-autocomplete tools for small edits",
     "Configuration learning curve"
   ],
-  "best_for": ["Privacy-conscious teams", "Local-LLM enthusiasts", "Devs who want full control"],
-  "avoid_if": ["You want zero-config out-of-box", "You need a polished hosted solution"],
-  "last_verified": "2026-04-30"
+  "best_for": [
+    "Privacy-conscious teams",
+    "Local-LLM enthusiasts",
+    "Devs who want full control"
+  ],
+  "avoid_if": [
+    "You want zero-config out-of-box",
+    "You need a polished hosted solution"
+  ],
+  "last_verified": "2026-04-30",
+  "github_stars": 61193,
+  "github_last_push": "2026-04-30"
 }

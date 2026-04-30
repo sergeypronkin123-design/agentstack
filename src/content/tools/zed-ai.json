@@ -13,8 +13,14 @@
   "docs": "https://zed.dev/docs",
   "open_source": true,
   "license": "GPL-3.0 (editor); proprietary AI features",
-  "languages": ["any"],
-  "models_supported": ["claude-sonnet-4-6", "gpt-5", "any-via-openai-compatible"],
+  "languages": [
+    "any"
+  ],
+  "models_supported": [
+    "claude-sonnet-4-6",
+    "gpt-5",
+    "any-via-openai-compatible"
+  ],
   "features": [
     "Native Rust editor — sub-100ms cold start",
     "Real-time collaborative editing",
@@ -23,7 +29,12 @@
     "MCP server support",
     "Bring-your-own model"
   ],
-  "integrations": ["MCP", "Anthropic", "OpenAI", "Ollama"],
+  "integrations": [
+    "MCP",
+    "Anthropic",
+    "OpenAI",
+    "Ollama"
+  ],
   "pros": [
     "Fastest editor on the list",
     "OSS editor + commercial AI",
@@ -33,7 +44,16 @@
     "Smaller plugin ecosystem than VS Code",
     "AI features less polished than Cursor"
   ],
-  "best_for": ["Performance-obsessed devs", "Pair-programming-heavy teams", "Rust/Go/system devs"],
-  "avoid_if": ["You rely on a specific VS Code extension that isn't ported", "You need rich AI agent UX"],
-  "last_verified": "2026-04-30"
+  "best_for": [
+    "Performance-obsessed devs",
+    "Pair-programming-heavy teams",
+    "Rust/Go/system devs"
+  ],
+  "avoid_if": [
+    "You rely on a specific VS Code extension that isn't ported",
+    "You need rich AI agent UX"
+  ],
+  "last_verified": "2026-04-30",
+  "github_stars": 80563,
+  "github_last_push": "2026-04-30"
 }
