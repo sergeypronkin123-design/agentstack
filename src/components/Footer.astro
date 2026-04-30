@@ -1,0 +1,38 @@
+---
+const year = new Date().getFullYear();
+---
+
+<footer class="border-t border-white/5 mt-16">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 py-8 grid grid-cols-1 md:grid-cols-4 gap-6 text-sm">
+    <div class="md:col-span-2">
+      <div class="font-semibold text-white">AgentStack</div>
+      <p class="text-slate-400 mt-2 max-w-md">
+        Independent directory and recipe book for AI coding tools.
+        We update from public sources daily and don't accept pay-for-rank.
+      </p>
+    </div>
+    <div>
+      <div class="text-slate-400 mb-2 text-xs uppercase tracking-wider">Browse</div>
+      <ul class="space-y-1.5">
+        <li><a href="/tools" class="hover:text-white">All tools</a></li>
+        <li><a href="/recipes" class="hover:text-white">All recipes</a></li>
+        <li><a href="/compare" class="hover:text-white">Compare</a></li>
+        <li><a href="/rss.xml" class="hover:text-white">RSS feed</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="text-slate-400 mb-2 text-xs uppercase tracking-wider">About</div>
+      <ul class="space-y-1.5">
+        <li><a href="/about" class="hover:text-white">How we work</a></li>
+        <li><a href="/about#contributing" class="hover:text-white">Contribute</a></li>
+        <li><a href="/about#disclosure" class="hover:text-white">Affiliate disclosure</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="border-t border-white/5">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 py-4 text-xs text-slate-500 flex items-center justify-between">
+      <span>© {year} AgentStack. All trademarks belong to their owners.</span>
+      <span>Last refreshed daily via GitHub Actions</span>
+    </div>
+  </div>
+</footer>

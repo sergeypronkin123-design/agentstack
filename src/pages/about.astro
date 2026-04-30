@@ -1,0 +1,56 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="About AgentStack"
+  description="How AgentStack is built, kept honest, and refreshed daily."
+>
+  <article class="prose prose-invert max-w-none">
+    <h1>About AgentStack</h1>
+    <p class="lead text-slate-300">
+      AgentStack exists because every other "best AI coding tools" article is sponsored,
+      stale, or both. We're a small site. Our edge is honesty and freshness.
+    </p>
+
+    <h2>How we keep facts current</h2>
+    <p>
+      Tool pages rebuild daily via GitHub Actions. The build pulls public data
+      (GitHub API for OSS tools, official pricing pages for proprietary ones) and
+      regenerates all pages. If a fact is stale, we'd rather not publish it than guess.
+    </p>
+
+    <h2 id="disclosure">Affiliate disclosure</h2>
+    <p>
+      Some links to commercial tools are affiliate links. They look identical to
+      non-affiliate links — we don't get a higher commission for ranking a tool higher,
+      and we don't take payment for placement. If a tool stops being the best in its
+      category, it gets ranked lower, period. If you'd rather not give us commission,
+      <strong>just go to the tool's homepage directly</strong>; you'll get the same product at the same price.
+    </p>
+
+    <h2>What we don't do</h2>
+    <ul>
+      <li><strong>Sponsored placements</strong>. Every "Featured" or "Recommended" callout is editorial.</li>
+      <li><strong>Pay-for-rank</strong>. No vendor can buy ranking. Recipes are written for actual usefulness, not SEO arbitrage.</li>
+      <li><strong>AI-generated slop articles</strong>. Each recipe is hand-edited by someone who actually used the tools described.</li>
+    </ul>
+
+    <h2 id="contributing">Contributing</h2>
+    <p>
+      Found something wrong, outdated, or missing? Open an issue or PR on
+      <a href="https://github.com/your-org/agentstack" target="_blank" rel="noopener">GitHub</a>.
+      Especially valuable: edge cases, gotchas, real production stories, performance numbers.
+    </p>
+    <p>
+      We don't accept "review" PRs from vendors about their own tool — those need to come
+      from independent users.
+    </p>
+
+    <h2>Tech stack of this site</h2>
+    <p>
+      Astro + Tailwind, deployed on Cloudflare Pages. Source MIT-licensed.
+      Daily refresh runs at 06:00 UTC via GitHub Actions.
+    </p>
+  </article>
+</BaseLayout>

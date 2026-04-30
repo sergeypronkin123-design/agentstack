@@ -1,0 +1,59 @@
+---
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  a: CollectionEntry<'tools'>;
+  b: CollectionEntry<'tools'>;
+}
+const { a, b } = Astro.props;
+
+function priceLabel(p: { free_tier: boolean; paid_from_usd?: number }) {
+  if (p.free_tier && !p.paid_from_usd) return 'Free';
+  if (p.free_tier && p.paid_from_usd) return `Free + $${p.paid_from_usd}/mo`;
+  if (p.paid_from_usd) return `$${p.paid_from_usd}/mo`;
+  return 'Paid';
+}
+
+const rows: Array<{ label: string; left: string | string[]; right: string | string[] }> = [
+  { label: 'Category', left: a.data.category, right: b.data.category },
+  { label: 'Pricing', left: priceLabel(a.data.pricing), right: priceLabel(b.data.pricing) },
+  { label: 'Open source', left: a.data.open_source ? 'Yes' : 'No', right: b.data.open_source ? 'Yes' : 'No' },
+  { label: 'License', left: a.data.license ?? '—', right: b.data.license ?? '—' },
+  { label: 'Models', left: a.data.models_supported, right: b.data.models_supported },
+  { label: 'Integrations', left: a.data.integrations, right: b.data.integrations },
+  { label: 'Best for', left: a.data.best_for, right: b.data.best_for },
+];
+---
+
+<div class="overflow-x-auto rounded-xl border border-white/5 bg-ink-800/40">
+  <table class="w-full text-sm">
+    <thead>
+      <tr class="bg-ink-700/40 text-left">
+        <th class="px-4 py-3 font-semibold text-slate-400">Aspect</th>
+        <th class="px-4 py-3 font-semibold text-white">{a.data.name}</th>
+        <th class="px-4 py-3 font-semibold text-white">{b.data.name}</th>
+      </tr>
+    </thead>
+    <tbody>
+      {rows.map((row) => (
+        <tr class="border-t border-white/5">
+          <td class="px-4 py-3 text-slate-400 font-medium align-top">{row.label}</td>
+          <td class="px-4 py-3 text-slate-200 align-top">
+            {Array.isArray(row.left)
+              ? row.left.length === 0
+                ? <span class="text-slate-500">—</span>
+                : <ul class="space-y-1">{row.left.map((s) => <li>· {s}</li>)}</ul>
+              : row.left}
+          </td>
+          <td class="px-4 py-3 text-slate-200 align-top">
+            {Array.isArray(row.right)
+              ? row.right.length === 0
+                ? <span class="text-slate-500">—</span>
+                : <ul class="space-y-1">{row.right.map((s) => <li>· {s}</li>)}</ul>
+              : row.right}
+          </td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+</div>

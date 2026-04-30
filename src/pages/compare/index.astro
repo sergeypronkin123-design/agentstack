@@ -1,0 +1,68 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+
+const tools = await getCollection('tools');
+tools.sort((a, b) => a.data.name.localeCompare(b.data.name));
+
+// Самые востребованные парные сравнения (вручную, для index)
+const featuredPairs = [
+  ['claude-code', 'cursor'],
+  ['cursor', 'github-copilot'],
+  ['cline', 'roo-code'],
+  ['cline', 'continue'],
+  ['aider', 'claude-code'],
+  ['cursor', 'windsurf'],
+  ['claude-code', 'opencode'],
+  ['github-copilot', 'continue'],
+];
+
+const map = new Map(tools.map((t) => [t.data.slug, t]));
+---
+
+<BaseLayout
+  title="Compare AI coding tools"
+  description="Head-to-head comparisons between AI coding agents — same facts, side by side."
+>
+  <h1 class="text-3xl sm:text-4xl font-bold mb-2">Compare</h1>
+  <p class="text-slate-300 mb-8">
+    Pick any two tools below for a side-by-side breakdown. Pages auto-generate
+    for every pairing so you can also URL-hack: <code class="text-xs bg-white/5 px-2 py-0.5 rounded">/compare/cursor-vs-cline</code>
+  </p>
+
+  <h2 class="text-lg font-semibold mb-3">Most-searched comparisons</h2>
+  <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-10">
+    {featuredPairs.map(([a, b]) => {
+      const ta = map.get(a);
+      const tb = map.get(b);
+      if (!ta || !tb) return null;
+      const slug = [a, b].sort().join('-vs-');
+      return (
+        <a href={`/compare/${slug}`} class="block bg-ink-800/60 border border-white/5 rounded-xl p-5 hover:border-accent-500/40 transition-colors">
+          <div class="font-semibold text-white">{ta.data.name} vs {tb.data.name}</div>
+          <div class="text-sm text-slate-400 mt-1">{ta.data.category} ↔ {tb.data.category}</div>
+        </a>
+      );
+    })}
+  </div>
+
+  <h2 class="text-lg font-semibold mb-3">All combinations</h2>
+  <p class="text-sm text-slate-400 mb-3">
+    {tools.length}×{tools.length - 1}/2 = {(tools.length * (tools.length - 1)) / 2} pairings, all auto-generated.
+  </p>
+  <details class="bg-ink-800/40 border border-white/5 rounded-xl p-4">
+    <summary class="cursor-pointer text-slate-300 hover:text-white">Show all</summary>
+    <div class="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-1 text-sm">
+      {tools.flatMap((a, i) =>
+        tools.slice(i + 1).map((b) => {
+          const slug = [a.data.slug, b.data.slug].sort().join('-vs-');
+          return (
+            <a class="text-accent-400 hover:underline py-0.5" href={`/compare/${slug}`}>
+              {a.data.name} vs {b.data.name}
+            </a>
+          );
+        }),
+      )}
+    </div>
+  </details>
+</BaseLayout>

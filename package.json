@@ -1,0 +1,35 @@
+{
+  "name": "agentstack",
+  "version": "0.1.0",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro check && astro build",
+    "preview": "astro preview",
+    "lint": "astro check",
+    "refresh": "node scripts/refresh-tools.mjs",
+    "dashboard": "node scripts/build-dashboard.mjs",
+    "auto:discover": "node scripts/auto-discover-tools.mjs",
+    "auto:pricing-check": "node scripts/auto-pricing-check.mjs",
+    "auto:health-check": "node scripts/auto-health-check.mjs",
+    "auto:newsletter": "node scripts/auto-newsletter.mjs",
+    "auto:tweet": "node scripts/auto-tweet.mjs",
+    "auto:seo-audit": "node scripts/auto-seo-audit.mjs",
+    "gen:comparison": "node scripts/gen-comparison.mjs"
+  },
+  "dependencies": {
+    "@astrojs/check": "^0.9.4",
+    "@astrojs/mdx": "^4.0.0",
+    "@astrojs/rss": "^4.0.10",
+    "@astrojs/sitemap": "^3.2.1",
+    "@astrojs/tailwind": "^5.1.4",
+    "astro": "^5.1.0",
+    "tailwindcss": "^3.4.16",
+    "typescript": "^5.7.2",
+    "zod": "^3.24.1"
+  },
+  "devDependencies": {
+    "lightningcss": "^1.32.0"
+  }
+}

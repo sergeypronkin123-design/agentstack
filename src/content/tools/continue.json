@@ -1,0 +1,39 @@
+{
+  "slug": "continue",
+  "name": "Continue",
+  "tagline": "Open-source AI assistant for VS Code and JetBrains. Customizable rules, models, contexts.",
+  "category": "extension",
+  "pricing": {
+    "free_tier": true,
+    "paid_from_usd": 0,
+    "notes": "Free OSS; Continue Hub for team distribution."
+  },
+  "repo": "https://github.com/continuedev/continue",
+  "homepage": "https://continue.dev",
+  "docs": "https://docs.continue.dev",
+  "open_source": true,
+  "license": "Apache-2.0",
+  "languages": ["any"],
+  "models_supported": ["claude-sonnet-4-6", "gpt-5", "any-via-openai-compatible"],
+  "features": [
+    "Custom slash commands",
+    "Context providers (codebase, docs, terminal, etc.)",
+    "Multiple chat tabs",
+    "Inline edit and autocomplete",
+    "Continue Hub for sharing rules/prompts",
+    "Local model via Ollama"
+  ],
+  "integrations": ["Ollama", "OpenRouter", "Continue Hub"],
+  "pros": [
+    "Most flexible config of any OSS tool",
+    "Works in both VS Code and JetBrains",
+    "No vendor lock-in"
+  ],
+  "cons": [
+    "Setup overhead — configuration is its strength and curse",
+    "Autocomplete trails Cursor/Copilot in latency"
+  ],
+  "best_for": ["JetBrains users", "Teams who want shared prompt library", "Privacy-conscious devs"],
+  "avoid_if": ["You want zero config", "You don't use VS Code or JetBrains"],
+  "last_verified": "2026-04-30"
+}

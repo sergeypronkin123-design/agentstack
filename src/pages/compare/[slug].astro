@@ -1,0 +1,79 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import ComparisonTable from '@/components/ComparisonTable.astro';
+
+export async function getStaticPaths() {
+  const tools = await getCollection('tools');
+  const paths: Array<{ params: { slug: string }; props: any }> = [];
+  for (let i = 0; i < tools.length; i++) {
+    for (let j = i + 1; j < tools.length; j++) {
+      const a = tools[i];
+      const b = tools[j];
+      if (!a || !b) continue;
+      const slugs = [a.data.slug, b.data.slug].sort();
+      paths.push({
+        params: { slug: `${slugs[0]}-vs-${slugs[1]}` },
+        props: { a: slugs[0] === a.data.slug ? a : b, b: slugs[0] === a.data.slug ? b : a },
+      });
+    }
+  }
+  return paths;
+}
+
+const { a, b } = Astro.props;
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: `${a.data.name} vs ${b.data.name} — comparison`,
+  description: `Side-by-side comparison of ${a.data.name} and ${b.data.name}: pricing, models, integrations, pros, cons.`,
+  about: [
+    { '@type': 'SoftwareApplication', name: a.data.name, url: a.data.homepage },
+    { '@type': 'SoftwareApplication', name: b.data.name, url: b.data.homepage },
+  ],
+};
+---
+
+<BaseLayout
+  title={`${a.data.name} vs ${b.data.name} (2026) — full comparison`}
+  description={`Side-by-side: ${a.data.tagline} vs ${b.data.tagline}.`}
+  schema={schema}
+>
+  <header class="mb-8">
+    <div class="text-xs text-slate-500 uppercase tracking-wider mb-2">
+      <a href="/compare" class="hover:text-accent-400">compare</a>
+    </div>
+    <h1 class="text-3xl sm:text-4xl font-bold">{a.data.name} <span class="text-slate-500">vs</span> {b.data.name}</h1>
+    <p class="text-slate-300 mt-3">
+      Honest breakdown of {a.data.name} ({a.data.tagline.toLowerCase()}) and {b.data.name} ({b.data.tagline.toLowerCase()}).
+      Last refreshed {a.data.last_verified}.
+    </p>
+  </header>
+
+  <ComparisonTable a={a} b={b} />
+
+  <section class="mt-10 grid sm:grid-cols-2 gap-6">
+    <div class="bg-ink-800/60 border border-white/5 rounded-xl p-5">
+      <h2 class="font-semibold text-white mb-3">When to pick {a.data.name}</h2>
+      <ul class="text-sm space-y-1.5">
+        {a.data.best_for.map((b: string) => <li>· {b}</li>)}
+      </ul>
+    </div>
+    <div class="bg-ink-800/60 border border-white/5 rounded-xl p-5">
+      <h2 class="font-semibold text-white mb-3">When to pick {b.data.name}</h2>
+      <ul class="text-sm space-y-1.5">
+        {b.data.best_for.map((s: string) => <li>· {s}</li>)}
+      </ul>
+    </div>
+  </section>
+
+  <section class="mt-10 flex flex-wrap gap-2">
+    <a href={`/tools/${a.data.slug}`} class="px-4 py-2 rounded-lg border border-white/15 hover:bg-white/5 text-sm">
+      Full {a.data.name} review →
+    </a>
+    <a href={`/tools/${b.data.slug}`} class="px-4 py-2 rounded-lg border border-white/15 hover:bg-white/5 text-sm">
+      Full {b.data.name} review →
+    </a>
+  </section>
+</BaseLayout>

@@ -1,0 +1,66 @@
+---
+import { getCollection, getEntry } from 'astro:content';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+
+export async function getStaticPaths() {
+  const recipes = await getCollection('recipes');
+  return recipes.map((r) => ({ params: { slug: r.slug }, props: { recipe: r } }));
+}
+
+const { recipe } = Astro.props;
+const { Content } = await recipe.render();
+
+const tools = await Promise.all(
+  recipe.data.tools.map((slug) => getEntry('tools', slug)),
+);
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'TechArticle',
+  headline: recipe.data.title,
+  description: recipe.data.description,
+  datePublished: recipe.data.updated,
+  dateModified: recipe.data.updated,
+  about: tools.filter(Boolean).map((t: any) => ({
+    '@type': 'SoftwareApplication',
+    name: t.data.name,
+  })),
+};
+---
+
+<BaseLayout
+  title={recipe.data.title}
+  description={recipe.data.description}
+  schema={schema}
+>
+  <article>
+    <header class="mb-8">
+      <div class="flex items-center gap-2 text-xs text-slate-500 uppercase tracking-wider mb-3">
+        <a href="/recipes" class="hover:text-accent-400">recipes</a>
+        <span>/</span>
+        <span>{recipe.data.difficulty}</span>
+        <span>·</span>
+        <span>{recipe.data.time_minutes} min</span>
+      </div>
+      <h1 class="text-3xl sm:text-4xl font-bold">{recipe.data.title}</h1>
+      <p class="text-lg text-slate-300 mt-3">{recipe.data.description}</p>
+      <div class="mt-4 flex flex-wrap items-center gap-2 text-sm">
+        <span class="text-slate-500">Stack:</span>
+        {tools.filter(Boolean).map((t: any) => (
+          <a href={`/tools/${t.data.slug}`} class="px-2 py-0.5 rounded bg-accent-500/10 text-accent-400 border border-accent-500/30 hover:bg-accent-500/20 transition-colors">
+            {t.data.name}
+          </a>
+        ))}
+      </div>
+    </header>
+
+    <div class="prose prose-invert prose-headings:font-semibold prose-pre:bg-ink-950 prose-pre:border prose-pre:border-white/10 prose-code:text-accent-400 prose-a:text-accent-400 max-w-none">
+      <Content />
+    </div>
+
+    <footer class="mt-12 pt-6 border-t border-white/5 text-sm text-slate-400">
+      Last updated {recipe.data.updated}.
+      Found a mistake? <a href="/about#contributing" class="text-accent-400 hover:underline">Open an issue</a>.
+    </footer>
+  </article>
+</BaseLayout>

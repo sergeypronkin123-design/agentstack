@@ -1,0 +1,39 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+
+const recipes = await getCollection('recipes');
+recipes.sort((a, b) => (a.data.updated < b.data.updated ? 1 : -1));
+---
+
+<BaseLayout
+  title="Recipes — multi-tool AI coding workflows"
+  description="Battle-tested setups combining 2+ AI coding tools. Step-by-step, with caveats."
+>
+  <h1 class="text-3xl sm:text-4xl font-bold mb-3">Recipes</h1>
+  <p class="text-slate-300 mb-10 max-w-2xl">
+    Real workflows from working engineers. Each recipe stacks 1+ tools end-to-end
+    and lists honest limitations — not just the happy path.
+  </p>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+    {recipes.map((r) => (
+      <a href={`/recipes/${r.slug}`} class="block bg-ink-800/60 border border-white/5 rounded-xl p-5 hover:border-accent-500/40 transition-colors group">
+        <div class="flex items-center gap-2 text-[11px] text-slate-500 mb-2">
+          <span class="px-1.5 py-0.5 rounded bg-white/5 border border-white/10">{r.data.difficulty}</span>
+          <span>·</span>
+          <span>{r.data.time_minutes} min</span>
+          <span>·</span>
+          <span class="font-mono">{r.data.tools.join(' + ')}</span>
+        </div>
+        <h3 class="font-semibold text-white group-hover:text-accent-400 transition-colors">{r.data.title}</h3>
+        <p class="text-sm text-slate-300 mt-2">{r.data.description}</p>
+        <div class="flex flex-wrap gap-1 mt-3">
+          {r.data.tags.map((t) => (
+            <span class="text-[10px] px-1.5 py-0.5 rounded bg-white/5 text-slate-400 border border-white/10">#{t}</span>
+          ))}
+        </div>
+      </a>
+    ))}
+  </div>
+</BaseLayout>

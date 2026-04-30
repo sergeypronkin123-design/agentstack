@@ -1,0 +1,44 @@
+name: Weekly discovery
+
+on:
+  schedule:
+    - cron: '0 9 * * 3'  # каждую среду 09:00 UTC
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+  issues: write
+
+jobs:
+  discover:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 20 }
+      - run: npm ci
+      - name: Discover new tools
+        run: node scripts/auto-discover-tools.mjs
+      - name: Commit state
+        run: |
+          git config user.name 'agentstack-bot'
+          git config user.email 'bot@agentstack.dev'
+          git add .automation/
+          if ! git diff --staged --quiet; then
+            git commit -m "chore(discover): weekly scan" && git push
+          fi
+      - name: Notify if new candidates
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const state = JSON.parse(fs.readFileSync('.automation/state.json', 'utf8'));
+            const recent = (state.discovered_tools ?? []).slice(-10);
+            if (!recent.length) return;
+            const body = recent.map(t => `- **${t.name}** ([${t.source}](${t.url})) — ${t.title}`).join('\n');
+            await github.rest.issues.create({
+              ...context.repo,
+              title: `Discovery: ${recent.length} new candidate(s)`,
+              body: `Review and add to \`src/content/tools/\` or close.\n\n${body}`,
+              labels: ['discovery', 'automated']
+            });

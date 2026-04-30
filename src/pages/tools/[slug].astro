@@ -1,0 +1,172 @@
+---
+import { getCollection, getEntry } from 'astro:content';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+
+export async function getStaticPaths() {
+  const tools = await getCollection('tools');
+  return tools.map((t) => ({ params: { slug: t.data.slug }, props: { tool: t } }));
+}
+
+const { tool } = Astro.props;
+const t = tool.data;
+
+// Все рецепты, которые упоминают этот инструмент
+const allRecipes = await getCollection('recipes');
+const relatedRecipes = allRecipes.filter((r) => r.data.tools.includes(t.slug));
+
+// Все инструменты для compare-предложений
+const allTools = await getCollection('tools');
+const others = allTools.filter((x) => x.data.slug !== t.slug).slice(0, 6);
+
+function priceLabel() {
+  if (t.pricing.free_tier && !t.pricing.paid_from_usd) return 'Free';
+  if (t.pricing.free_tier && t.pricing.paid_from_usd) return `Free + Pro from $${t.pricing.paid_from_usd}/mo`;
+  if (t.pricing.paid_from_usd) return `From $${t.pricing.paid_from_usd}/mo`;
+  return 'Paid';
+}
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'SoftwareApplication',
+  name: t.name,
+  description: t.tagline,
+  applicationCategory: 'DeveloperApplication',
+  url: t.homepage,
+  offers: {
+    '@type': 'Offer',
+    price: t.pricing.paid_from_usd ?? 0,
+    priceCurrency: 'USD',
+  },
+};
+---
+
+<BaseLayout
+  title={`${t.name} review (2026) — features, pricing, alternatives`}
+  description={t.tagline}
+  schema={schema}
+>
+  <header class="mb-8">
+    <div class="flex items-center gap-2 text-xs text-slate-500 uppercase tracking-wider mb-3">
+      <a href="/tools" class="hover:text-accent-400">tools</a>
+      <span>/</span>
+      <span>{t.category}</span>
+    </div>
+    <div class="flex items-start justify-between gap-4 flex-wrap">
+      <div>
+        <h1 class="text-4xl font-bold">{t.name}</h1>
+        <p class="text-lg text-slate-300 mt-2 max-w-2xl">{t.tagline}</p>
+      </div>
+      <div class="flex flex-col items-end gap-2 shrink-0">
+        {t.open_source && (
+          <span class="text-xs px-2 py-1 rounded bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">Open source · {t.license}</span>
+        )}
+        <span class="text-sm font-medium">{priceLabel()}</span>
+      </div>
+    </div>
+    <div class="flex flex-wrap gap-2 mt-5">
+      <a href={t.homepage} target="_blank" rel="noopener" class="px-4 py-2 rounded-lg bg-accent-500 hover:bg-accent-600 text-sm font-medium transition-colors">
+        Visit homepage →
+      </a>
+      {t.docs && (
+        <a href={t.docs} target="_blank" rel="noopener" class="px-4 py-2 rounded-lg border border-white/15 hover:bg-white/5 text-sm font-medium transition-colors">
+          Docs
+        </a>
+      )}
+      {t.repo && (
+        <a href={t.repo} target="_blank" rel="noopener" class="px-4 py-2 rounded-lg border border-white/15 hover:bg-white/5 text-sm font-medium transition-colors">
+          GitHub
+        </a>
+      )}
+    </div>
+  </header>
+
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+    <div class="lg:col-span-2 space-y-8">
+      <section>
+        <h2 class="text-xl font-semibold mb-3">Features</h2>
+        <ul class="space-y-2">
+          {t.features.map((f) => (
+            <li class="flex gap-3 text-slate-200">
+              <span class="text-accent-400 shrink-0">▸</span>
+              <span>{f}</span>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      <section class="grid sm:grid-cols-2 gap-6">
+        <div>
+          <h3 class="text-sm uppercase tracking-wider text-emerald-400 mb-2">Pros</h3>
+          <ul class="space-y-2 text-sm">
+            {t.pros.map((p) => <li class="text-slate-200">+ {p}</li>)}
+          </ul>
+        </div>
+        <div>
+          <h3 class="text-sm uppercase tracking-wider text-amber-400 mb-2">Cons</h3>
+          <ul class="space-y-2 text-sm">
+            {t.cons.map((p) => <li class="text-slate-200">− {p}</li>)}
+          </ul>
+        </div>
+      </section>
+
+      <section class="grid sm:grid-cols-2 gap-6">
+        <div>
+          <h3 class="text-sm uppercase tracking-wider text-slate-400 mb-2">Best for</h3>
+          <ul class="space-y-1.5 text-sm">{t.best_for.map((s) => <li>· {s}</li>)}</ul>
+        </div>
+        <div>
+          <h3 class="text-sm uppercase tracking-wider text-slate-400 mb-2">Avoid if</h3>
+          <ul class="space-y-1.5 text-sm">{t.avoid_if.map((s) => <li>· {s}</li>)}</ul>
+        </div>
+      </section>
+
+      {relatedRecipes.length > 0 && (
+        <section>
+          <h2 class="text-xl font-semibold mb-3">Recipes using {t.name}</h2>
+          <div class="space-y-2">
+            {relatedRecipes.map((r) => (
+              <a href={`/recipes/${r.slug}`} class="block p-4 bg-ink-800/60 border border-white/5 rounded-lg hover:border-accent-500/40 transition-colors">
+                <div class="font-medium text-white">{r.data.title}</div>
+                <div class="text-sm text-slate-400 mt-1">{r.data.description}</div>
+              </a>
+            ))}
+          </div>
+        </section>
+      )}
+    </div>
+
+    <aside class="space-y-6">
+      <div class="bg-ink-800/60 border border-white/5 rounded-xl p-5">
+        <h3 class="text-sm uppercase tracking-wider text-slate-400 mb-3">At a glance</h3>
+        <dl class="space-y-2 text-sm">
+          <div><dt class="text-slate-500 inline">Category:</dt> <dd class="inline ml-1 text-slate-200">{t.category}</dd></div>
+          <div><dt class="text-slate-500 inline">Pricing:</dt> <dd class="inline ml-1 text-slate-200">{priceLabel()}</dd></div>
+          <div><dt class="text-slate-500 inline">Open source:</dt> <dd class="inline ml-1 text-slate-200">{t.open_source ? 'Yes' : 'No'}</dd></div>
+          <div><dt class="text-slate-500 inline">Last verified:</dt> <dd class="inline ml-1 text-slate-200">{t.last_verified}</dd></div>
+        </dl>
+      </div>
+
+      <div class="bg-ink-800/60 border border-white/5 rounded-xl p-5">
+        <h3 class="text-sm uppercase tracking-wider text-slate-400 mb-3">Models supported</h3>
+        <ul class="flex flex-wrap gap-1.5">
+          {t.models_supported.map((m) => (
+            <li class="text-[11px] mono px-2 py-0.5 rounded bg-white/5 border border-white/10 text-slate-300">{m}</li>
+          ))}
+        </ul>
+      </div>
+
+      <div class="bg-ink-800/60 border border-white/5 rounded-xl p-5">
+        <h3 class="text-sm uppercase tracking-wider text-slate-400 mb-3">Compare with</h3>
+        <ul class="space-y-1.5 text-sm">
+          {others.slice(0, 5).map((o) => (
+            <li>
+              <a class="text-accent-400 hover:underline" href={`/compare/${[t.slug, o.data.slug].sort().join('-vs-')}`}>
+                {t.name} vs {o.data.name}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </aside>
+  </div>
+</BaseLayout>

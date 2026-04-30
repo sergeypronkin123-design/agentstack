@@ -1,0 +1,86 @@
+---
+title: "Claude Code + Linear MCP — turn tickets into PRs in one slash"
+description: "Wire Claude Code's MCP support to Linear so /feature pulls a ticket, implements, opens a PR, and links back."
+tools: ["claude-code"]
+difficulty: "intermediate"
+time_minutes: 25
+tags: ["mcp", "linear", "automation", "workflow"]
+updated: "2026-04-30"
+---
+
+This recipe wires Claude Code to Linear so you can run `/feature TICKET-123` and have Claude pull the ticket, implement the work, open a PR, and link the PR back on the Linear card — all from your terminal.
+
+## What you need
+
+- Claude Code installed and signed in
+- Linear workspace + a personal API key
+- A repo where you actually want changes (this isn't a sandbox demo)
+
+## Step 1: Install the Linear MCP server
+
+```bash
+claude mcp add linear --command "npx" --args "-y" "@linear-mcp/server"
+```
+
+Verify:
+
+```bash
+claude mcp list
+```
+
+You should see `linear` listed as connected.
+
+## Step 2: Add your Linear API token
+
+```bash
+claude config set mcp.linear.api_token "lin_api_..."
+```
+
+Don't commit this — it lives in your local Claude config.
+
+## Step 3: Create the slash command
+
+In your repo, drop a file at `.claude/commands/feature.md`:
+
+```markdown
+---
+description: Implement a Linear ticket end-to-end
+agent: orchestrator
+argument-hint: "<TICKET-123>"
+---
+
+# /feature $ARGUMENTS
+
+1. Pull ticket $ARGUMENTS from Linear via MCP.
+2. Read the ticket description and acceptance criteria.
+3. Plan the implementation (use plan mode).
+4. After my approval, implement.
+5. Run tests; if they fail, fix.
+6. Open a PR with the ticket ID in the title.
+7. Add a comment to the Linear ticket linking the PR.
+```
+
+## Step 4: Try it
+
+```bash
+cd your-repo
+claude
+> /feature ENG-471
+```
+
+The first time, Claude will ask permission to call the Linear MCP. Approve.
+
+## Common pitfalls
+
+- **Linear's API has rate limits.** If you bulk-fire `/feature`, expect 429s. Batch at most 3-5/min.
+- **Don't give Claude write access to Linear** unless you've sandboxed your account. Read + comment is enough for most cases.
+- **PR commit signing** — if your repo enforces signed commits, install GPG before this works end-to-end.
+
+## Variations
+
+- Replace Linear with **Jira MCP** or **GitHub Issues MCP** — same pattern, different MCP package.
+- Add a `reviewer` subagent that auto-runs after the PR opens.
+
+## Why this matters
+
+Most teams either context-switch between Linear and their editor 30 times a day, or they automate ticket → branch with Lazy scripts. This recipe is the cleanest middle ground: one slash command, full audit trail in both Linear and Git.

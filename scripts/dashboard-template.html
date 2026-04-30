@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AgentStack — Control Center</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    darkMode: 'class',
+    theme: { extend: {
+      fontFamily: { sans: ['Inter','system-ui'], mono: ['JetBrains Mono','monospace'] },
+      colors: {
+        ink: { 950:'#06070a',900:'#0a0d14',800:'#11151f',700:'#1a2030',600:'#252c40' },
+        accent: { 400:'#7c8cff',500:'#5d72f5',600:'#4256de' },
+      },
+    }}
+  }
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  body { font-family: Inter, system-ui; }
+  .mono { font-family: 'JetBrains Mono', monospace; }
+  .gradient-bg {
+    background:
+      radial-gradient(ellipse 70% 50% at 50% 0%, rgba(124,140,255,.15), transparent),
+      radial-gradient(ellipse 50% 40% at 90% 30%, rgba(93,114,245,.10), transparent),
+      #06070a;
+  }
+  .pulse { animation: p 2.5s ease-in-out infinite; }
+  @keyframes p { 0%,100% { opacity: 1 } 50% { opacity: .6 } }
+  .scrollbar::-webkit-scrollbar { width:6px;height:6px }
+  .scrollbar::-webkit-scrollbar-thumb { background:rgba(124,140,255,.3); border-radius:3px }
+  details > summary { list-style: none; cursor: pointer; }
+  details > summary::-webkit-details-marker { display: none; }
+  .fade-in { animation: f .25s ease-out }
+  @keyframes f { from { opacity:0; transform: translateY(4px) } to { opacity:1; transform:none } }
+  pre { background:#06070a; padding:8px 12px; border-radius:6px; border:1px solid rgba(255,255,255,.08); font-size:12px; overflow-x:auto }
+</style>
+</head>
+<body class="gradient-bg text-slate-200 min-h-screen">
+
+<header class="sticky top-0 z-40 backdrop-blur-md bg-ink-950/70 border-b border-white/5">
+  <div class="max-w-[1400px] mx-auto px-6 py-3 flex items-center gap-4">
+    <div class="flex items-center gap-3">
+      <div class="w-9 h-9 rounded-lg bg-gradient-to-br from-accent-400 to-accent-600 grid place-items-center font-bold text-white">A</div>
+      <div>
+        <div class="font-bold text-sm">AgentStack</div>
+        <div class="text-[11px] text-slate-400">Control Center</div>
+      </div>
+    </div>
+    <nav class="flex-1 flex items-center gap-1 text-sm overflow-x-auto scrollbar">
+      <button data-tab="overview"  class="tab-btn px-3 py-1.5 rounded-md hover:bg-white/5">Обзор</button>
+      <button data-tab="tools"     class="tab-btn px-3 py-1.5 rounded-md hover:bg-white/5">Инструменты</button>
+      <button data-tab="recipes"   class="tab-btn px-3 py-1.5 rounded-md hover:bg-white/5">Рецепты</button>
+      <button data-tab="pipeline"  class="tab-btn px-3 py-1.5 rounded-md hover:bg-white/5">Pipeline</button>
+      <button data-tab="automation" class="tab-btn px-3 py-1.5 rounded-md hover:bg-white/5">Автоматизация</button>
+      <button data-tab="seo"       class="tab-btn px-3 py-1.5 rounded-md hover:bg-white/5">SEO</button>
+      <button data-tab="revenue"   class="tab-btn px-3 py-1.5 rounded-md hover:bg-white/5">Доход</button>
+      <button data-tab="tasks"     class="tab-btn px-3 py-1.5 rounded-md hover:bg-white/5">Задачи</button>
+    </nav>
+    <div class="flex items-center gap-2 text-xs text-slate-400">
+      <span class="w-2 h-2 rounded-full bg-emerald-500 pulse"></span>
+      <span id="last-gen">сгенерировано…</span>
+    </div>
+  </div>
+</header>
+
+<main class="max-w-[1400px] mx-auto px-6 py-6 space-y-6">
+
+  <!-- ============ OVERVIEW ============ -->
+  <section data-pane="overview" class="pane">
+    <div id="overview-stats" class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-3"></div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 mt-6">
+      <div class="lg:col-span-2 bg-ink-800/60 border border-white/5 rounded-xl p-5">
+        <h2 class="font-semibold mb-4">Что нужно сделать сегодня</h2>
+        <div id="today-tasks" class="space-y-2"></div>
+      </div>
+      <div class="bg-ink-800/60 border border-white/5 rounded-xl p-5">
+        <h2 class="font-semibold mb-3">Последние запуски автоматизации</h2>
+        <div id="last-runs" class="space-y-2 text-sm"></div>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div class="bg-ink-800/60 border border-white/5 rounded-xl p-5">
+        <h2 class="font-semibold mb-3">Свежесть данных по инструментам</h2>
+        <div id="freshness-bars"></div>
+      </div>
+      <div class="bg-ink-800/60 border border-white/5 rounded-xl p-5">
+        <h2 class="font-semibold mb-3">Изменения цен (последние 30 дней)</h2>
+        <div id="pricing-changes" class="text-sm"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ TOOLS ============ -->
+  <section data-pane="tools" class="pane hidden">
+    <div class="flex items-baseline justify-between mb-4">
+      <h2 class="text-lg font-semibold">Инструменты — <span id="tools-count" class="text-slate-400 text-sm"></span></h2>
+      <button onclick="copyCmd('npm run refresh')" class="text-xs px-3 py-1.5 rounded-md bg-accent-500/15 text-accent-400 border border-accent-500/30 hover:bg-accent-500/25">📋 npm run refresh — обновить все</button>
+    </div>
+    <div id="tools-table" class="bg-ink-800/40 border border-white/5 rounded-xl overflow-hidden"></div>
+  </section>
+
+  <!-- ============ RECIPES ============ -->
+  <section data-pane="recipes" class="pane hidden">
+    <div class="flex items-baseline justify-between mb-4">
+      <h2 class="text-lg font-semibold">Рецепты — <span id="recipes-count" class="text-slate-400 text-sm"></span></h2>
+      <a href="https://docs.astro.build/en/guides/markdown-content/" target="_blank" rel="noopener" class="text-xs text-accent-400 hover:underline">синтаксис MDX →</a>
+    </div>
+    <div id="recipes-grid" class="grid grid-cols-1 md:grid-cols-2 gap-3"></div>
+  </section>
+
+  <!-- ============ PIPELINE ============ -->
+  <section data-pane="pipeline" class="pane hidden">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div class="bg-ink-800/60 border border-white/5 rounded-xl p-5">
+        <h3 class="font-semibold mb-3">Идеи в очереди</h3>
+        <div id="queue-ideas" class="space-y-2 text-sm"></div>
+      </div>
+      <div class="bg-ink-800/60 border border-white/5 rounded-xl p-5">
+        <h3 class="font-semibold mb-3">Драфты на ревью</h3>
+        <div id="drafts" class="space-y-2 text-sm"></div>
+      </div>
+      <div class="bg-ink-800/60 border border-white/5 rounded-xl p-5">
+        <h3 class="font-semibold mb-3">Автообнаруженные tools</h3>
+        <div id="discovered-tools" class="space-y-2 text-sm"></div>
+      </div>
+    </div>
+    <div class="mt-6 bg-ink-800/40 border border-white/5 rounded-xl p-5">
+      <h3 class="font-semibold mb-3">Сгенерировать новый сравнительный рецепт</h3>
+      <div class="flex flex-wrap gap-2 items-center text-sm">
+        <select id="cmp-a" class="bg-ink-700 border border-white/10 rounded px-2 py-1.5"></select>
+        <span class="text-slate-400">vs</span>
+        <select id="cmp-b" class="bg-ink-700 border border-white/10 rounded px-2 py-1.5"></select>
+        <button onclick="copyComparisonCmd()" class="px-3 py-1.5 rounded bg-accent-500 hover:bg-accent-600 text-white">📋 Команда генерации</button>
+      </div>
+      <div class="text-xs text-slate-400 mt-2">→ скопирует <code class="mono">npm run gen:comparison &lt;a&gt; &lt;b&gt;</code> — запустите в терминале</div>
+    </div>
+  </section>
+
+  <!-- ============ AUTOMATION ============ -->
+  <section data-pane="automation" class="pane hidden">
+    <h2 class="text-lg font-semibold mb-4">Полный автоматизационный конвейер</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-3" id="automation-grid"></div>
+    <div class="mt-6 bg-ink-800/60 border border-white/5 rounded-xl p-5">
+      <h3 class="font-semibold mb-2">GitHub Actions schedule</h3>
+      <div id="github-actions" class="text-sm space-y-1"></div>
+      <div class="text-xs text-slate-400 mt-3">Включите/отключите редактируя <code class="mono">.github/workflows/*.yml</code> поле <code class="mono">on.schedule</code>.</div>
+    </div>
+  </section>
+
+  <!-- ============ SEO ============ -->
+  <section data-pane="seo" class="pane hidden">
+    <h2 class="text-lg font-semibold mb-4">SEO-здоровье</h2>
+    <div id="seo-cards" class="grid grid-cols-1 md:grid-cols-2 gap-3"></div>
+    <div class="mt-6 bg-ink-800/60 border border-white/5 rounded-xl p-5">
+      <h3 class="font-semibold mb-3">Запустить аудит</h3>
+      <button onclick="copyCmd('npm run auto:seo-audit')" class="px-3 py-1.5 text-sm rounded bg-accent-500 hover:bg-accent-600">📋 npm run auto:seo-audit</button>
+      <div class="text-xs text-slate-400 mt-2">Скрипт обойдёт sitemap, проверит meta/h1/internal-links, выдаст отчёт в <code class="mono">.automation/seo-report.md</code></div>
+    </div>
+  </section>
+
+  <!-- ============ REVENUE ============ -->
+  <section data-pane="revenue" class="pane hidden">
+    <h2 class="text-lg font-semibold mb-4">Доход — статус подключения</h2>
+    <div id="revenue-streams" class="space-y-3"></div>
+    <div class="mt-6 bg-ink-800/40 border border-white/5 rounded-xl p-5">
+      <h3 class="font-semibold mb-2">Реалистичные ожидания</h3>
+      <table class="w-full text-sm">
+        <thead><tr class="text-slate-400 text-left"><th class="py-2">Месяц</th><th>Visitors</th><th>$/мес</th></tr></thead>
+        <tbody>
+          <tr class="border-t border-white/5"><td class="py-2">1</td><td>0–500</td><td>$0</td></tr>
+          <tr class="border-t border-white/5"><td class="py-2">3</td><td>3–15k</td><td>$50–300</td></tr>
+          <tr class="border-t border-white/5"><td class="py-2">6</td><td>10–50k</td><td>$200–1500</td></tr>
+          <tr class="border-t border-white/5"><td class="py-2">12</td><td>30–150k</td><td>$500–5000</td></tr>
+          <tr class="border-t border-white/5"><td class="py-2">24</td><td>100–500k</td><td>$1500–15000</td></tr>
+        </tbody>
+      </table>
+      <div class="text-xs text-slate-400 mt-3">Это диапазоны, не гарантии. См. docs/MONETIZATION.md.</div>
+    </div>
+  </section>
+
+  <!-- ============ TASKS ============ -->
+  <section data-pane="tasks" class="pane hidden">
+    <h2 class="text-lg font-semibold mb-4">Чек-лист недели</h2>
+    <div id="weekly-tasks" class="bg-ink-800/60 border border-white/5 rounded-xl p-5 space-y-2"></div>
+  </section>
+
+</main>
+
+<!-- toast -->
+<div id="toast" class="fixed bottom-6 right-6 z-50 hidden bg-emerald-500 text-white px-4 py-2 rounded-lg shadow-lg text-sm font-medium fade-in">✓ скопировано</div>
+
+<script id="data" type="application/json">__DASHBOARD_DATA__</script>
+<script>
+const DATA = JSON.parse(document.getElementById('data').textContent);
+const $ = (s) => document.querySelector(s);
+const $$ = (s) => Array.from(document.querySelectorAll(s));
+
+function copyCmd(cmd) {
+  navigator.clipboard.writeText(cmd).then(() => {
+    const t = $('#toast'); t.classList.remove('hidden');
+    setTimeout(() => t.classList.add('hidden'), 1500);
+  });
+}
+window.copyCmd = copyCmd;
+
+function dayDelta(iso) {
+  if (!iso) return null;
+  return Math.floor((Date.now() - new Date(iso).getTime()) / 86400000);
+}
+function statusBadge(t) {
+  const d = dayDelta(t.last_verified);
+  if (d == null) return '<span class="px-2 py-0.5 rounded bg-slate-500/20 text-slate-400 text-[10px]">—</span>';
+  if (d <= 7) return '<span class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 text-[10px]">fresh</span>';
+  if (d <= 30) return `<span class="px-2 py-0.5 rounded bg-amber-500/20 text-amber-400 text-[10px]">${d}d</span>`;
+  return `<span class="px-2 py-0.5 rounded bg-rose-500/20 text-rose-400 text-[10px]">stale ${d}d</span>`;
+}
+
+// ───── OVERVIEW ─────
+function renderOverview() {
+  const s = DATA.stats;
+  const tiles = [
+    ['Tools',     s.tools,    'индексировано'],
+    ['Recipes',   s.recipes,  'опубликовано'],
+    ['OSS',       s.oss,      `${Math.round(s.oss/s.tools*100)}% бесплатных`],
+    ['Платных',   s.paid,     ''],
+    ['Сравнений', s.pairs,    'авто-генерится'],
+    ['Свежих',    s.fresh,    `${s.tools - s.fresh} требуют обновления`],
+    ['Stale',     s.stale,    s.stale > 0 ? '⚠ нужно' : '✓ ок'],
+  ];
+  $('#overview-stats').innerHTML = tiles.map(([k,v,sub]) => `
+    <div class="bg-ink-800/60 border border-white/5 rounded-xl p-4">
+      <div class="text-[11px] uppercase tracking-wider text-slate-400">${k}</div>
+      <div class="text-2xl font-bold mt-1">${v}</div>
+      <div class="text-[11px] text-slate-500 mt-1">${sub}</div>
+    </div>
+  `).join('');
+
+  // today tasks
+  const tt = computeTodayTasks();
+  $('#today-tasks').innerHTML = tt.length ? tt.map(t => `
+    <div class="flex items-start gap-3 p-3 rounded bg-white/5 border border-white/5">
+      <span class="text-${t.color}-400">${t.icon}</span>
+      <div class="flex-1 text-sm">
+        <div class="font-medium">${t.title}</div>
+        <div class="text-xs text-slate-400 mt-0.5">${t.desc}</div>
+      </div>
+      ${t.cmd ? `<button onclick="copyCmd('${t.cmd}')" class="text-xs px-2 py-1 rounded bg-accent-500/15 text-accent-400 border border-accent-500/30 hover:bg-accent-500/25 mono">📋</button>` : ''}
+    </div>
+  `).join('') : '<div class="text-sm text-slate-400">✓ Всё в порядке. Можете писать новый рецепт.</div>';
+
+  // last runs
+  const runs = DATA.auto.last_runs ?? {};
+  const runEntries = Object.entries(runs);
+  $('#last-runs').innerHTML = runEntries.length ? runEntries.map(([k, v]) => `
+    <div class="flex items-center justify-between text-sm">
+      <span class="mono text-slate-300">${k}</span>
+      <span class="text-xs text-slate-500">${v.iso ? new Date(v.iso).toLocaleString() : '—'}</span>
+    </div>
+  `).join('') : '<div class="text-xs text-slate-500">Автоматизация ещё не запускалась. Сделайте первый push.</div>';
+
+  // freshness bars
+  $('#freshness-bars').innerHTML = DATA.tools.map(t => {
+    const d = dayDelta(t.last_verified);
+    const color = d <= 7 ? 'bg-emerald-500' : d <= 30 ? 'bg-amber-500' : 'bg-rose-500';
+    const pct = Math.max(5, Math.min(100, 100 - (d ?? 60)));
+    return `
+      <div class="text-xs mb-2">
+        <div class="flex justify-between mb-0.5">
+          <span>${t.name}</span><span class="text-slate-500">${d ?? '—'}d</span>
+        </div>
+        <div class="w-full h-1.5 bg-white/5 rounded overflow-hidden">
+          <div class="${color} h-full rounded" style="width:${pct}%"></div>
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  // pricing changes
+  const pc = DATA.auto.pricing_changes ?? [];
+  $('#pricing-changes').innerHTML = pc.length ? pc.map(c => `
+    <div class="flex items-center justify-between py-1.5 border-b border-white/5">
+      <span>${c.tool}</span>
+      <span class="mono text-slate-400">${c.old} → ${c.new}</span>
+    </div>
+  `).join('') : '<div class="text-xs text-slate-500">Изменений не обнаружено. Авто-проверка раз в неделю.</div>';
+}
+
+function computeTodayTasks() {
+  const out = [];
+  const stale = DATA.tools.filter(t => dayDelta(t.last_verified) > 30);
+  if (stale.length) {
+    out.push({ icon: '⚠️', color: 'amber',
+      title: `${stale.length} stale tool(s)`,
+      desc: stale.map(t => t.name).join(', '),
+      cmd: `npm run refresh -- ${stale[0].slug}` });
+  }
+  const lastNewsletter = DATA.auto.last_runs?.['newsletter']?.iso;
+  const dN = dayDelta(lastNewsletter);
+  if (dN === null || dN >= 7) {
+    out.push({ icon: '📬', color: 'accent',
+      title: 'Сгенерировать weekly newsletter',
+      desc: lastNewsletter ? `последний ${dN}d назад` : 'ни разу не запускался',
+      cmd: 'npm run auto:newsletter' });
+  }
+  if ((DATA.auto.discovered_tools ?? []).length > 0) {
+    out.push({ icon: '🔭', color: 'accent',
+      title: `${DATA.auto.discovered_tools.length} новых tools обнаружено`,
+      desc: 'нужно ревью и решение, добавлять ли',
+      cmd: '' });
+  }
+  if ((DATA.auto.health_issues ?? []).length > 0) {
+    out.push({ icon: '🛟', color: 'rose',
+      title: `${DATA.auto.health_issues.length} broken URL(s)`,
+      desc: 'health-check нашёл недоступные ссылки',
+      cmd: 'npm run auto:health-check' });
+  }
+  return out;
+}
+
+// ───── TOOLS ─────
+function renderTools() {
+  $('#tools-count').textContent = `${DATA.tools.length} entries · авто-обновляется`;
+  $('#tools-table').innerHTML = `
+    <table class="w-full text-sm">
+      <thead class="bg-ink-700/50 text-left">
+        <tr>
+          <th class="px-4 py-2 text-slate-400 font-medium">Имя</th>
+          <th class="px-4 py-2 text-slate-400 font-medium">Категория</th>
+          <th class="px-4 py-2 text-slate-400 font-medium">Цена</th>
+          <th class="px-4 py-2 text-slate-400 font-medium">OSS</th>
+          <th class="px-4 py-2 text-slate-400 font-medium">⭐</th>
+          <th class="px-4 py-2 text-slate-400 font-medium">Last verified</th>
+          <th class="px-4 py-2 text-slate-400 font-medium">Действия</th>
+        </tr>
+      </thead>
+      <tbody>
+        ${DATA.tools.map(t => `
+          <tr class="border-t border-white/5 hover:bg-white/5">
+            <td class="px-4 py-2"><div class="font-medium">${t.name}</div><div class="text-[11px] text-slate-500 mono">${t.slug}</div></td>
+            <td class="px-4 py-2 text-slate-300">${t.category}</td>
+            <td class="px-4 py-2 text-slate-300">${t.pricing.free_tier ? (t.pricing.paid_from_usd ? 'free + $' + t.pricing.paid_from_usd : 'free') : (t.pricing.paid_from_usd ? '$' + t.pricing.paid_from_usd : 'paid')}</td>
+            <td class="px-4 py-2">${t.open_source ? '<span class="text-emerald-400">✓</span>' : '<span class="text-slate-600">—</span>'}</td>
+            <td class="px-4 py-2 text-slate-300 mono text-xs">${t.github_stars ? t.github_stars.toLocaleString() : '—'}</td>
+            <td class="px-4 py-2">${statusBadge(t)}</td>
+            <td class="px-4 py-2">
+              <button onclick="copyCmd('npm run refresh -- ${t.slug}')" class="text-xs px-2 py-1 rounded bg-accent-500/15 text-accent-400 hover:bg-accent-500/25 border border-accent-500/30 mono">refresh</button>
+            </td>
+          </tr>
+        `).join('')}
+      </tbody>
+    </table>
+  `;
+}
+
+// ───── RECIPES ─────
+function renderRecipes() {
+  $('#recipes-count').textContent = `${DATA.recipes.length} опубликовано`;
+  $('#recipes-grid').innerHTML = DATA.recipes.map(r => `
+    <div class="bg-ink-800/60 border border-white/5 rounded-xl p-5">
+      <div class="flex items-center gap-2 text-[11px] text-slate-500 mb-2">
+        <span class="px-1.5 py-0.5 rounded bg-white/5 border border-white/10">${r.difficulty}</span>
+        <span>·</span><span>${r.time_minutes} min</span>
+        <span>·</span><span class="mono">${(Array.isArray(r.tools) ? r.tools.join(' + ') : r.tools)}</span>
+      </div>
+      <h3 class="font-semibold">${r.title}</h3>
+      <p class="text-sm text-slate-300 mt-2">${r.description}</p>
+      <div class="text-xs text-slate-500 mt-3">обновлён ${r.updated}</div>
+    </div>
+  `).join('');
+}
+
+// ───── PIPELINE ─────
+function renderPipeline() {
+  const ideas = DATA.auto.pipeline?.queued_ideas ?? [];
+  const drafts = DATA.auto.pipeline?.drafts ?? [];
+  const discovered = DATA.auto.discovered_tools ?? [];
+
+  $('#queue-ideas').innerHTML = ideas.length ? ideas.map(i => `
+    <div class="p-2 rounded bg-white/5 border border-white/5">${i.title || i}</div>
+  `).join('') : '<div class="text-xs text-slate-500">Очередь пуста. Запустите авто-discovery.</div>';
+
+  $('#drafts').innerHTML = drafts.length ? drafts.map(d => `
+    <div class="p-2 rounded bg-white/5 border border-white/5">
+      <div class="font-medium text-sm">${d.title}</div>
+      <div class="text-xs text-slate-500">${d.path}</div>
+    </div>
+  `).join('') : '<div class="text-xs text-slate-500">Нет драфтов на ревью.</div>';
+
+  $('#discovered-tools').innerHTML = discovered.length ? discovered.map(t => `
+    <div class="p-2 rounded bg-white/5 border border-white/5">
+      <div class="font-medium text-sm">${t.name}</div>
+      <div class="text-xs text-slate-500">${t.source}</div>
+    </div>
+  `).join('') : '<div class="text-xs text-slate-500">Никто не обнаружен. Авто-discovery раз в неделю.</div>';
+
+  // comparison generator
+  const opt = (t) => `<option value="${t.slug}">${t.name}</option>`;
+  $('#cmp-a').innerHTML = DATA.tools.map(opt).join('');
+  $('#cmp-b').innerHTML = DATA.tools.map(opt).join('');
+  if (DATA.tools[1]) $('#cmp-b').value = DATA.tools[1].slug;
+}
+function copyComparisonCmd() {
+  const a = $('#cmp-a').value;
+  const b = $('#cmp-b').value;
+  copyCmd(`npm run gen:comparison ${a} ${b}`);
+}
+window.copyComparisonCmd = copyComparisonCmd;
+
+// ───── AUTOMATION ─────
+const AUTOMATIONS = [
+  { id: 'refresh', name: 'Daily refresh', desc: 'GitHub звёзды/last-push, last_verified', cron: 'каждый день 06:00 UTC', cmd: 'npm run refresh', wf: 'daily-refresh.yml' },
+  { id: 'discover', name: 'Tool discovery', desc: 'HN + Reddit scan для новых AI tools', cron: 'каждую среду', cmd: 'npm run auto:discover', wf: 'weekly-discover.yml' },
+  { id: 'pricing', name: 'Pricing tracker', desc: 'diff pricing страниц, alert при изменении', cron: 'каждый понедельник', cmd: 'npm run auto:pricing-check', wf: 'weekly-pricing.yml' },
+  { id: 'health', name: 'Health check', desc: 'ping все URL, отчёт о broken', cron: 'каждый день 04:00 UTC', cmd: 'npm run auto:health-check', wf: 'daily-health.yml' },
+  { id: 'newsletter', name: 'Weekly newsletter', desc: 'дайджест за неделю', cron: 'каждый понедельник', cmd: 'npm run auto:newsletter', wf: 'weekly-newsletter.yml' },
+  { id: 'tweet', name: 'Auto-tweet', desc: 'постит новые рецепты в Twitter/X', cron: 'on push (новый recipe)', cmd: 'npm run auto:tweet', wf: 'on-recipe-publish.yml' },
+  { id: 'seo', name: 'SEO audit', desc: 'проверка meta/h1/sitemap/links', cron: 'после каждого build', cmd: 'npm run auto:seo-audit', wf: 'deploy.yml (post-step)' },
+  { id: 'comparison', name: 'Comparison generator', desc: 'детальный recipe A vs B', cron: 'on demand', cmd: 'npm run gen:comparison <a> <b>', wf: '—' },
+];
+
+function renderAutomation() {
+  $('#automation-grid').innerHTML = AUTOMATIONS.map(a => {
+    const last = DATA.auto.last_runs?.[a.id];
+    const ago = last?.iso ? dayDelta(last.iso) + 'd назад' : 'не запускался';
+    return `
+      <div class="bg-ink-800/60 border border-white/5 rounded-xl p-5">
+        <div class="flex items-start justify-between gap-3">
+          <div>
+            <h3 class="font-semibold">${a.name}</h3>
+            <p class="text-sm text-slate-400 mt-1">${a.desc}</p>
+          </div>
+          <span class="text-[11px] text-slate-500 shrink-0">${ago}</span>
+        </div>
+        <div class="mt-3 text-xs text-slate-400">
+          <div><span class="text-slate-500">Cron:</span> ${a.cron}</div>
+          <div><span class="text-slate-500">Workflow:</span> <span class="mono">${a.wf}</span></div>
+        </div>
+        <button onclick="copyCmd('${a.cmd}')" class="mt-3 text-xs px-3 py-1.5 rounded bg-accent-500/15 text-accent-400 border border-accent-500/30 hover:bg-accent-500/25 mono">📋 ${a.cmd}</button>
+      </div>
+    `;
+  }).join('');
+  $('#github-actions').innerHTML = AUTOMATIONS.filter(a => a.wf !== '—').map(a => `
+    <div class="flex items-center justify-between py-1">
+      <span class="mono text-slate-400">${a.wf}</span>
+      <span>${a.cron}</span>
+    </div>
+  `).join('');
+}
+
+// ───── SEO ─────
+function renderSeo() {
+  const checks = [
+    { k: 'sitemap.xml', ok: true, msg: 'генерируется автоматически Astro' },
+    { k: 'robots.txt', ok: true, msg: 'присутствует' },
+    { k: 'RSS feed', ok: true, msg: 'recipes идут в RSS' },
+    { k: 'OG meta', ok: true, msg: 'BaseLayout инжектит для всех страниц' },
+    { k: 'Schema.org', ok: true, msg: 'SoftwareApplication / TechArticle / WebSite' },
+    { k: 'Internal linking', ok: DATA.recipes.length >= 5, msg: DATA.recipes.length >= 5 ? `${DATA.recipes.length} recipes ↔ tools` : 'нужно ≥ 5 recipes' },
+    { k: 'OG images per page', ok: false, msg: 'TODO: @vercel/og generator' },
+    { k: 'Search Console', ok: false, msg: 'добавьте сайт после деплоя' },
+  ];
+  $('#seo-cards').innerHTML = checks.map(c => `
+    <div class="bg-ink-800/60 border border-white/5 rounded-xl p-4 flex items-center justify-between">
+      <div>
+        <div class="font-medium">${c.k}</div>
+        <div class="text-xs text-slate-400 mt-1">${c.msg}</div>
+      </div>
+      <span class="${c.ok ? 'text-emerald-400' : 'text-amber-400'} text-xl">${c.ok ? '✓' : '○'}</span>
+    </div>
+  `).join('');
+}
+
+// ───── REVENUE ─────
+const STREAMS = [
+  { name: 'Carbon Ads', status: 'не подключено', need: 'apply после ~5k visitors/мес', range: '$30-50 CPM', flag: 'PUBLIC_ADS_ENABLED' },
+  { name: 'Affiliate links', status: 'настройка через JSON', need: 'добавьте affiliate_url в tools/<slug>.json', range: '20-30% commission' },
+  { name: 'Sponsored slots', status: 'не активно', need: 'после 25k visitors/мес — открываете ручной формат', range: '$99-499/мес/слот' },
+  { name: 'Premium tier', status: 'не активно', need: 'Stripe + entitlement worker — после 50k visitors', range: '$9/мес' },
+];
+function renderRevenue() {
+  $('#revenue-streams').innerHTML = STREAMS.map(s => `
+    <div class="bg-ink-800/60 border border-white/5 rounded-xl p-4 flex items-start justify-between gap-4">
+      <div>
+        <div class="font-semibold">${s.name}</div>
+        <div class="text-sm text-slate-400 mt-1">${s.need}</div>
+        ${s.flag ? `<div class="text-xs text-slate-500 mt-2">env flag: <code class="mono">${s.flag}=true</code></div>` : ''}
+      </div>
+      <div class="text-right shrink-0">
+        <div class="text-xs text-slate-500">${s.status}</div>
+        <div class="text-sm text-accent-400 mt-1">${s.range}</div>
+      </div>
+    </div>
+  `).join('');
+}
+
+// ───── TASKS ─────
+function renderTasks() {
+  const week = computeWeeklyTasks();
+  $('#weekly-tasks').innerHTML = week.map(t => `
+    <label class="flex items-start gap-3 cursor-pointer">
+      <input type="checkbox" class="mt-1">
+      <div class="flex-1">
+        <div class="text-sm font-medium">${t.title}</div>
+        <div class="text-xs text-slate-400">${t.desc}</div>
+      </div>
+      ${t.cmd ? `<button onclick="copyCmd('${t.cmd}')" class="text-xs px-2 py-1 rounded bg-accent-500/15 text-accent-400 border border-accent-500/30 mono">📋</button>` : ''}
+    </label>
+  `).join('');
+}
+function computeWeeklyTasks() {
+  return [
+    { title: 'Опубликовать 1 новый рецепт', desc: 'из очереди или новая идея — добавьте в src/content/recipes/', cmd: 'npm run dev' },
+    { title: 'Проверить stale tools и обновить', desc: 'на dashboard в Tools → нажать refresh у красных', cmd: 'npm run refresh' },
+    { title: 'Прогнать SEO-аудит', desc: 'отчёт в .automation/seo-report.md', cmd: 'npm run auto:seo-audit' },
+    { title: 'Прогнать health-check', desc: 'найти broken links перед публикацией', cmd: 'npm run auto:health-check' },
+    { title: 'Сгенерировать newsletter', desc: 'и отправить через beehiiv/Substack', cmd: 'npm run auto:newsletter' },
+    { title: 'Промо: 1 пост в соцсетях', desc: 'про новый рецепт — Twitter/dev.to/r/programming', cmd: '' },
+    { title: 'Ревью discovered tools', desc: 'если найдены — добавить в tools/ или отклонить', cmd: '' },
+  ];
+}
+
+// ───── tabs ─────
+function switchTab(name) {
+  $$('.pane').forEach(p => p.classList.add('hidden'));
+  const target = document.querySelector(`[data-pane="${name}"]`);
+  if (target) target.classList.remove('hidden');
+  $$('.tab-btn').forEach(b => b.classList.remove('bg-accent-500/15', 'text-accent-400'));
+  const btn = document.querySelector(`.tab-btn[data-tab="${name}"]`);
+  if (btn) btn.classList.add('bg-accent-500/15', 'text-accent-400');
+}
+
+// ───── init ─────
+document.addEventListener('DOMContentLoaded', () => {
+  $('#last-gen').textContent = `сгенерировано ${new Date(DATA.generated).toLocaleString()}`;
+  renderOverview();
+  renderTools();
+  renderRecipes();
+  renderPipeline();
+  renderAutomation();
+  renderSeo();
+  renderRevenue();
+  renderTasks();
+  switchTab('overview');
+  $$('.tab-btn').forEach(b => b.addEventListener('click', () => switchTab(b.dataset.tab)));
+});
+</script>
+</body>
+</html>

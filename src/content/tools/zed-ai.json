@@ -1,0 +1,39 @@
+{
+  "slug": "zed-ai",
+  "name": "Zed AI",
+  "tagline": "Native, blazing-fast collaborative editor with built-in AI assistant.",
+  "category": "ide",
+  "pricing": {
+    "free_tier": true,
+    "paid_from_usd": 20,
+    "notes": "Free Zed editor; Zed Pro adds AI assistant credits."
+  },
+  "repo": "https://github.com/zed-industries/zed",
+  "homepage": "https://zed.dev",
+  "docs": "https://zed.dev/docs",
+  "open_source": true,
+  "license": "GPL-3.0 (editor); proprietary AI features",
+  "languages": ["any"],
+  "models_supported": ["claude-sonnet-4-6", "gpt-5", "any-via-openai-compatible"],
+  "features": [
+    "Native Rust editor — sub-100ms cold start",
+    "Real-time collaborative editing",
+    "Inline assistant",
+    "Multi-cursor + tree-sitter editing",
+    "MCP server support",
+    "Bring-your-own model"
+  ],
+  "integrations": ["MCP", "Anthropic", "OpenAI", "Ollama"],
+  "pros": [
+    "Fastest editor on the list",
+    "OSS editor + commercial AI",
+    "Best collaborative experience"
+  ],
+  "cons": [
+    "Smaller plugin ecosystem than VS Code",
+    "AI features less polished than Cursor"
+  ],
+  "best_for": ["Performance-obsessed devs", "Pair-programming-heavy teams", "Rust/Go/system devs"],
+  "avoid_if": ["You rely on a specific VS Code extension that isn't ported", "You need rich AI agent UX"],
+  "last_verified": "2026-04-30"
+}

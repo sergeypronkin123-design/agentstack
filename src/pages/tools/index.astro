@@ -1,0 +1,51 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import ToolCard from '@/components/ToolCard.astro';
+
+const tools = await getCollection('tools');
+tools.sort((a, b) => a.data.name.localeCompare(b.data.name));
+
+const byCategory = tools.reduce<Record<string, typeof tools>>((acc, t) => {
+  (acc[t.data.category] ??= []).push(t);
+  return acc;
+}, {});
+
+const categoryOrder: Array<keyof typeof byCategory> = ['ide', 'cli', 'extension', 'agent', 'platform'];
+const categoryLabels: Record<string, string> = {
+  ide: 'IDEs',
+  cli: 'CLIs',
+  extension: 'Extensions',
+  agent: 'Agents',
+  platform: 'Platforms',
+};
+---
+
+<BaseLayout
+  title="All AI coding tools"
+  description={`Independent directory of ${tools.length} AI coding tools with daily-updated facts.`}
+>
+  <h1 class="text-3xl sm:text-4xl font-bold mb-3">All tools</h1>
+  <p class="text-slate-300 mb-10">
+    {tools.length} tools indexed. Sorted by category, then alphabetically.
+    Last refresh: {new Date().toISOString().slice(0, 10)}.
+  </p>
+
+  {categoryOrder.filter(c => byCategory[c]).map((cat) => (
+    <section class="mb-10">
+      <h2 class="text-xl font-semibold mb-4 text-slate-200">{categoryLabels[cat]}</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+        {byCategory[cat].map((t) => (
+          <ToolCard
+            slug={t.data.slug}
+            name={t.data.name}
+            tagline={t.data.tagline}
+            category={t.data.category}
+            pricing={t.data.pricing}
+            open_source={t.data.open_source}
+          />
+        ))}
+      </div>
+    </section>
+  ))}
+</BaseLayout>

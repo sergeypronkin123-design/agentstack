@@ -1,0 +1,38 @@
+{
+  "slug": "windsurf",
+  "name": "Windsurf",
+  "tagline": "Codeium's AI-native IDE with Cascade — flow-state agentic editing.",
+  "category": "ide",
+  "pricing": {
+    "free_tier": true,
+    "paid_from_usd": 15,
+    "enterprise": true,
+    "notes": "Free tier with limits; Pro $15/mo; Teams/Enterprise on quote."
+  },
+  "homepage": "https://codeium.com/windsurf",
+  "docs": "https://docs.codeium.com/windsurf",
+  "open_source": false,
+  "license": "Proprietary",
+  "languages": ["any"],
+  "models_supported": ["claude-sonnet-4-6", "gpt-5", "windsurf-internal"],
+  "features": [
+    "Cascade — agentic flow editing",
+    "Supercomplete (multi-line autocomplete)",
+    "Memories — persistent project context",
+    "MCP server support",
+    "Built on Codeium's enterprise stack"
+  ],
+  "integrations": ["MCP", "GitHub", "GitLab", "Bitbucket"],
+  "pros": [
+    "Smooth flow-state UX",
+    "Strong enterprise/SOC 2 story",
+    "Generous free tier"
+  ],
+  "cons": [
+    "Less plugin ecosystem than Cursor",
+    "Internal model can lag behind frontier"
+  ],
+  "best_for": ["Enterprise-grade compliance needs", "Teams migrating from VS Code"],
+  "avoid_if": ["You need MCP-rich ecosystem", "You prefer best-in-class autocomplete (try Cursor)"],
+  "last_verified": "2026-04-30"
+}

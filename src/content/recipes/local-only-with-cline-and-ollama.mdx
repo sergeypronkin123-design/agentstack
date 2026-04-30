@@ -1,0 +1,90 @@
+---
+title: "Air-gapped AI coding: Cline + Ollama on your laptop"
+description: "Zero data leaves your machine. Run Qwen 3 Coder 32B locally; let Cline orchestrate."
+tools: ["cline"]
+difficulty: "intermediate"
+time_minutes: 40
+tags: ["local-llm", "privacy", "ollama", "qwen"]
+updated: "2026-04-30"
+---
+
+For regulated industries, sensitive client code, or just paranoia, here's a setup where literally nothing leaves your machine.
+
+## Hardware reality check
+
+- **Minimum**: 32GB RAM + Apple Silicon M3 / RTX 4080 16GB → can run quantized 14B models reasonably.
+- **Comfortable**: 64GB RAM + M3 Max / RTX 4090 → 32B models at decent speed.
+- **Ideal**: 128GB unified memory (M4 Max) or 2× RTX 4090 → 70B models or full-precision 32B.
+
+If you're below minimum, this setup will frustrate you. Use a remote dev box.
+
+## Step 1: Install Ollama
+
+```bash
+brew install ollama   # macOS
+# or
+curl -fsSL https://ollama.com/install.sh | sh   # Linux
+```
+
+## Step 2: Pull a coder model
+
+For most users in 2026, **Qwen 3 Coder 32B** is the sweet spot:
+
+```bash
+ollama pull qwen3-coder:32b
+```
+
+Alternatives:
+- `deepseek-coder-v3` — strong on Python/TS, slightly larger
+- `codestral-2:22b` — Mistral's offering, good for non-English
+- `llama-3.3:70b` — only if you have the hardware
+
+## Step 3: Install Cline
+
+Open VS Code → Extensions → search "Cline" → Install.
+
+Then in Cline settings:
+- API Provider: **Ollama**
+- Base URL: `http://localhost:11434`
+- Model: `qwen3-coder:32b`
+
+## Step 4: Configure for offline use
+
+Create `.clinerules` at your repo root:
+
+```markdown
+- Never call out to web search or external APIs.
+- Don't use any tool that requires network.
+- If you need information you don't have, ask me — don't guess.
+```
+
+This prevents Cline from trying to call browser tools that would require network.
+
+## Step 5: Tune for speed
+
+In Cline settings, under "Advanced":
+- **Context window**: 16k (32B local models slow down hard above this)
+- **Output tokens**: 4k max
+- **Auto-approve**: Off (review every diff)
+
+## What this is good for
+
+- Refactoring on private codebases
+- Fixing self-contained bugs
+- Writing tests
+- Code reviews of your own diffs
+
+## What this is *not* good for
+
+- Long agentic chains (local models drift more)
+- Tasks requiring web/API knowledge
+- Bleeding-edge language features (cutoff issues)
+
+## Honest comparison: this vs cloud
+
+Local Qwen 3 Coder 32B is roughly at the level of cloud Sonnet from late 2024. Frontier cloud models from 2026 are noticeably better at:
+- Long contexts (>32k)
+- Multi-step planning
+- Recent ecosystem knowledge
+
+So: use this for *privacy-mandatory* work, use cloud for everything else.

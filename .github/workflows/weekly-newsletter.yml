@@ -1,0 +1,45 @@
+name: Weekly newsletter
+
+on:
+  schedule:
+    - cron: '0 10 * * 1'  # каждый понедельник 10:00 UTC
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+  issues: write
+
+jobs:
+  newsletter:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 20 }
+      - run: npm ci
+      - name: Generate newsletter
+        run: node scripts/auto-newsletter.mjs
+      - name: Commit
+        run: |
+          git config user.name 'agentstack-bot'
+          git config user.email 'bot@agentstack.dev'
+          git add .automation/
+          if ! git diff --staged --quiet; then
+            git commit -m "chore(newsletter): weekly draft" && git push
+          fi
+      - name: Open issue with newsletter
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const path = require('path');
+            const dir = '.automation/newsletter';
+            const files = fs.readdirSync(dir).sort().reverse();
+            if (!files[0]) return;
+            const md = fs.readFileSync(path.join(dir, files[0]), 'utf8');
+            await github.rest.issues.create({
+              ...context.repo,
+              title: `Newsletter draft: ${files[0]}`,
+              body: `Edit "Curated reads" section, then paste into beehiiv/Substack.\n\n---\n\n${md}`,
+              labels: ['newsletter', 'automated']
+            });

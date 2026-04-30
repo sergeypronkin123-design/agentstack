@@ -1,0 +1,72 @@
+---
+title: "Migrating from GitHub Copilot to Cursor: 30-minute checklist"
+description: "Move your config, key bindings, and ignore patterns. Keep Copilot for one week as backup."
+tools: ["github-copilot", "cursor"]
+difficulty: "beginner"
+time_minutes: 30
+tags: ["migration", "vscode"]
+updated: "2026-04-30"
+---
+
+The most common AI tool switch in 2026. Here's how to do it without losing momentum.
+
+## Pre-migration checklist
+
+- [ ] Cancel auto-renew on Copilot but **don't cancel yet** — keep it as fallback for one week.
+- [ ] Export your `settings.json` from VS Code.
+- [ ] Note your favorite Copilot key bindings (default `Tab` to accept, `Esc` to dismiss, `Ctrl+Enter` for chat).
+
+## Install Cursor
+
+Download from [cursor.com](https://cursor.com). On first launch:
+- It offers to import your VS Code settings, extensions, key bindings — **say yes**.
+- You'll be logged out — sign in with GitHub.
+
+## Settings to migrate
+
+In Cursor's `Settings → AI`:
+
+| Copilot setting | Cursor equivalent |
+|---|---|
+| Inline suggestions | Tab (Cursor Tab — same UX) |
+| Copilot Chat | Cmd-L (Cursor Chat) |
+| Copilot Workspace | Composer (Cmd-I) |
+| `.gitignore`-aware | `.cursorignore` (same syntax) |
+
+## The big new thing: `.cursorrules`
+
+Drop a file at your repo root:
+
+```markdown
+You are working in our React/TypeScript codebase.
+- We use Vite, Tailwind, TanStack Query.
+- We DO NOT use Redux. State is via Zustand.
+- All components are functional, hooks-only.
+- Tests live in __tests__/ next to the file.
+```
+
+This is the killer feature Copilot doesn't have natively (Copilot Workspace partially). Cursor reads this for every chat.
+
+## What Copilot does better still
+
+Be honest:
+- **Editor breadth**: Copilot works in JetBrains, Neovim, Visual Studio. Cursor only forks VS Code.
+- **GitHub integration**: PRs reviewed by Copilot are tighter integrated than Cursor's GitHub flow.
+- **Free tier for OSS maintainers**: Copilot is free if you're a verified OSS maintainer. Cursor isn't.
+
+If you live in JetBrains or maintain a popular OSS repo, **stay on Copilot**.
+
+## What Cursor does better
+
+- **Composer** (multi-file edits) — leagues ahead of Copilot Workspace as of 2026-04.
+- **Codebase chat** — `@codebase` actually works on monorepos.
+- **Background agents** — long-running tasks.
+- **Models** — you can route to Claude/GPT/Gemini per task.
+
+## Week-1 dual-running plan
+
+- **Day 1-3**: Cursor only for new features. Copilot fallback if Cursor confuses you.
+- **Day 4-7**: Cursor for everything. Compare your speed vs Copilot week.
+- **Day 8**: Decision. If you're faster, keep Cursor and cancel Copilot. If slower, give it 30 more days — there's a learning curve, especially for Composer.
+
+Most engineers I know pick Cursor by day 5. The minority that goes back is mostly Vim/JetBrains diehards.

@@ -1,0 +1,16 @@
+---
+interface Props {
+  slot?: 'sidebar' | 'inline' | 'header';
+}
+const { slot = 'inline' } = Astro.props;
+const enabled = import.meta.env.PUBLIC_ADS_ENABLED === 'true';
+---
+
+{enabled ? (
+  <div class:list={['ad-slot', `ad-${slot}`, 'border border-dashed border-white/10 rounded-lg p-3 text-center text-xs text-slate-500']}>
+    <!-- Carbon Ads zone (replace with your actual Carbon code after approval) -->
+    <script async type="text/javascript" src="//cdn.carbonads.com/carbon.js?serve=YOUR_CARBON_KEY&placement=AGENTSTACK_PLACEMENT" id="_carbonads_js" />
+  </div>
+) : (
+  <div class={`hidden`} />
+)}

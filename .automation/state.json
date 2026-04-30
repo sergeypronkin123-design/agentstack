@@ -1,0 +1,8 @@
+{
+  "last_runs": {},
+  "discovered_tools": [],
+  "pricing_changes": [],
+  "health_issues": [],
+  "pipeline": { "drafts": [], "queued_ideas": [] },
+  "_note": "Initial state. Будет наполняться по мере запусков GitHub Actions."
+}

@@ -1,0 +1,39 @@
+{
+  "slug": "cline",
+  "name": "Cline",
+  "tagline": "Open-source autonomous coding agent for VS Code. Plan-then-act with full transparency.",
+  "category": "extension",
+  "pricing": {
+    "free_tier": true,
+    "notes": "Free; you bring your own API key (Anthropic, OpenAI, OpenRouter, local)."
+  },
+  "repo": "https://github.com/cline/cline",
+  "homepage": "https://cline.bot",
+  "docs": "https://docs.cline.bot",
+  "open_source": true,
+  "license": "Apache-2.0",
+  "languages": ["any"],
+  "models_supported": ["claude-sonnet-4-6", "gpt-5", "deepseek-v3.5", "qwen-3-coder", "llama-3.3", "any-via-openrouter"],
+  "features": [
+    "Plan mode + Act mode",
+    "Diff preview before file write",
+    "Browser automation (computer use)",
+    "Terminal command execution with approval",
+    "MCP server support",
+    "Custom system prompts",
+    ".clinerules per-project"
+  ],
+  "integrations": ["MCP", "OpenRouter", "Ollama", "LM Studio"],
+  "pros": [
+    "Fully transparent — every action approval-gated",
+    "Bring-your-own-key, any model",
+    "Works with local models (Ollama)"
+  ],
+  "cons": [
+    "Slower than tab-autocomplete tools for small edits",
+    "Configuration learning curve"
+  ],
+  "best_for": ["Privacy-conscious teams", "Local-LLM enthusiasts", "Devs who want full control"],
+  "avoid_if": ["You want zero-config out-of-box", "You need a polished hosted solution"],
+  "last_verified": "2026-04-30"
+}

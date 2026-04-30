@@ -1,0 +1,38 @@
+{
+  "slug": "opencode",
+  "name": "OpenCode",
+  "tagline": "Open-source CLI alternative to Claude Code. Subagents, MCP, plugins — fully OSS.",
+  "category": "cli",
+  "pricing": {
+    "free_tier": true,
+    "notes": "Free OSS; bring your own API key (Anthropic, OpenAI, OpenRouter, local)."
+  },
+  "repo": "https://github.com/sst/opencode",
+  "homepage": "https://opencode.ai",
+  "docs": "https://opencode.ai/docs",
+  "open_source": true,
+  "license": "MIT",
+  "languages": ["any"],
+  "models_supported": ["claude-sonnet-4-6", "claude-opus-4-6", "gpt-5", "deepseek-v3.5", "any-local-via-ollama"],
+  "features": [
+    "Subagents (.opencode/agent/)",
+    "Slash commands (.opencode/command/)",
+    "Plugins/marketplace",
+    "MCP server support",
+    "Hooks & lifecycle events",
+    "Session persistence"
+  ],
+  "integrations": ["MCP", "GitHub", "Linear", "Slack", "Vercel"],
+  "pros": [
+    "Closest OSS analog to Claude Code",
+    "Compatible with Claude Code's .claude/agents/ format",
+    "MIT licensed — full freedom"
+  ],
+  "cons": [
+    "Smaller community than Claude Code",
+    "Some plugins still maturing"
+  ],
+  "best_for": ["Teams wanting Claude Code UX with OSS", "Self-hosters", "Plugin authors"],
+  "avoid_if": ["You want enterprise SLAs", "You prefer GUI-first"],
+  "last_verified": "2026-04-30"
+}

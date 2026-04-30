@@ -1,0 +1,40 @@
+{
+  "slug": "cursor",
+  "name": "Cursor",
+  "tagline": "AI-first VS Code fork with deep multi-file edit and tab autocomplete.",
+  "category": "ide",
+  "pricing": {
+    "free_tier": true,
+    "paid_from_usd": 20,
+    "enterprise": true,
+    "notes": "Free tier with limited model usage; Pro adds GPT-5/Claude-5 unlimited."
+  },
+  "homepage": "https://cursor.com",
+  "docs": "https://docs.cursor.com",
+  "open_source": false,
+  "license": "Proprietary",
+  "languages": ["any"],
+  "models_supported": ["claude-sonnet-4-6", "gpt-5", "deepseek-v3.5", "gemini-2.5-pro"],
+  "features": [
+    "Composer (multi-file agent)",
+    "Cmd-K inline edit",
+    "Tab autocomplete with codebase context",
+    "Chat with @-mention codebase / docs / web",
+    "Bug-finder mode",
+    "Background agents",
+    ".cursorrules per-project config"
+  ],
+  "integrations": ["GitHub", "MCP (limited)", "Linear", "Slack"],
+  "pros": [
+    "Best-in-class autocomplete and codebase chat",
+    "Familiar VS Code UX",
+    "Background agents for long tasks"
+  ],
+  "cons": [
+    "Closed source, telemetry concerns for some teams",
+    "MCP support trails Claude Code/Cline"
+  ],
+  "best_for": ["Frontend/full-stack devs", "Teams already on VS Code", "Devs who want autocomplete-first AI"],
+  "avoid_if": ["You need full OSS / data-residency control", "You prefer terminal-first workflows"],
+  "last_verified": "2026-04-30"
+}

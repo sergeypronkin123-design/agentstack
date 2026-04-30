@@ -1,0 +1,113 @@
+---
+title: "Build a multi-agent team in OpenCode (or Claude Code) for your project"
+description: "Architect → Developer → Tester → Reviewer chain. Same pattern works in both."
+tools: ["opencode", "claude-code"]
+difficulty: "advanced"
+time_minutes: 60
+tags: ["subagents", "multi-agent", "workflow"]
+updated: "2026-04-30"
+---
+
+Most teams default to one giant agent doing everything. That's a mistake. Specialized roles in chain produce better code than one general-purpose agent. Here's the minimum-viable team.
+
+## Folder layout
+
+Put these in `.opencode/agent/` (or `.claude/agents/` for Claude Code — format identical):
+
+```
+.opencode/agent/
+  orchestrator.md    # routes work
+  architect.md       # ADRs, no code
+  developer.md       # writes code
+  tester.md          # writes tests
+  reviewer.md        # final check
+```
+
+## Sample architect.md
+
+```markdown
+---
+description: Makes architectural decisions (ADRs). Doesn't write production code.
+mode: subagent
+model: anthropic/claude-opus-4-6
+tools:
+  read: true
+  write: true
+---
+
+You make architectural decisions. Process:
+1. Identify the problem in one sentence.
+2. List 2-3 alternatives with trade-offs.
+3. Recommend one with 3-5 bullet justification.
+4. Create docs/adr/NNNN-slug.md.
+5. Write skeleton interfaces (typed, no implementation).
+
+You don't write production code. You hand off to developer.
+```
+
+## Sample developer.md
+
+```markdown
+---
+description: Implements code per ADR. Doesn't make architectural choices.
+mode: subagent
+model: anthropic/claude-sonnet-4-6
+tools:
+  read: true
+  write: true
+  edit: true
+  bash: true
+---
+
+You implement code per existing ADR + skeleton.
+- Type-strict (mypy/strict TS).
+- Run linter before handoff.
+- Cover edge cases the architect listed.
+- Hand off to tester with: list of edge cases to verify.
+
+You don't decide architecture. If unclear, ask architect.
+```
+
+(Symmetric files for tester.md and reviewer.md.)
+
+## Sample slash command
+
+`.opencode/command/feature.md`:
+
+```markdown
+---
+description: Full implementation cycle
+agent: orchestrator
+---
+
+# /feature $ARGUMENTS
+
+Sequence:
+1. architect: ADR + skeleton.
+2. developer: implementation. Lint must pass.
+3. tester: unit + integration. Coverage ≥ 90% on changed files.
+4. reviewer: security/correctness/perf checklist. Verdict APPROVED/CHANGES/BLOCKED.
+
+If reviewer says CHANGES, loop back to developer with the list.
+Don't proceed to next step until current is green.
+```
+
+## Why this is better than one big agent
+
+1. **Specialization**: each role has a tighter prompt → fewer mistakes.
+2. **Audit trail**: each handoff is a checkpoint you can inspect.
+3. **Replaceability**: swap models per role — Opus for architect, Sonnet for developer, Haiku for tester. Costs go down 60% vs running everything at top tier.
+4. **Composability**: add a `security-engineer` role later without rewriting the others.
+
+## Cost reality check
+
+Running this for one feature on Sonnet+Opus in 2026:
+- Small feature (one new function): ~$0.30-0.80
+- Medium feature (new module): ~$1.50-4
+- Large refactor: ~$8-25
+
+Compare to your hourly rate. For a working engineer, this is essentially free even at the high end.
+
+## The real win
+
+Running roles in chain forces you to think in that order: design → implement → test → review. Most bugs come from skipping or compressing one of those phases. The agents enforce the order whether you like it or not.

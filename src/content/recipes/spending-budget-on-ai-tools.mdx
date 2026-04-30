@@ -1,0 +1,66 @@
+---
+title: "Setting a sane budget for AI coding tools as a working engineer"
+description: "Stop guessing — concrete monthly numbers for solo devs, small teams, and consultancies."
+tools: ["cursor", "claude-code", "github-copilot"]
+difficulty: "beginner"
+time_minutes: 8
+tags: ["pricing", "budget", "team"]
+updated: "2026-04-30"
+---
+
+The AI tools market in 2026 is a bewildering pricing soup. Here's how I'd budget for three persona types.
+
+## Solo dev (consulting / freelancing)
+
+**Monthly: $30-80**
+
+- 1 daily-driver IDE: Cursor Pro ($20) **or** Copilot Individual ($10).
+- 1 agentic CLI: Claude Code on Pro plan ($20) **or** OpenCode (free, your own keys).
+- API budget for ad-hoc: $10-30.
+
+Why this works: your time is the bottleneck. Don't penny-pinch the tools that save 20% of your day. Bill it back to clients as "tooling".
+
+## 5-person product team
+
+**Monthly: $400-800**
+
+- Cursor Business ($40 × 5 = $200)
+- Claude Code on Max plan for 2 senior engineers ($100 × 2 = $200)
+- Shared OpenAI/Anthropic API budget ($100-300)
+
+Skip Copilot Business *unless* your company already has GitHub Enterprise — then it's worth $19 × 5 for the integration.
+
+## 30-engineer org
+
+**Monthly: $4k-12k**
+
+- Cursor Enterprise (custom, ~$50/seat)
+- Copilot Enterprise (~$39/seat) — really only if you have GitHub Enterprise SSO needs
+- Anthropic Enterprise plan for governed Claude Code rollout
+- API spend governance via Helicone or LangFuse — you'll need it
+
+Set a per-team budget alert. Without alerts, API spend goes from $200/mo to $5k/mo overnight when one engineer makes a stuck agent loop.
+
+## Open-source-only setup ($0/mo, +API)
+
+If you absolutely refuse to pay for IDE-side AI:
+
+- **Continue** in VS Code/JetBrains
+- **Cline** or **Roo Code** for agentic
+- **Aider** for terminal
+- **OpenCode** for CLI agents
+- BYOK: $20-100/mo on API providers
+
+Total: $20-100/mo, all open source UI layer.
+
+## What's NOT worth paying for
+
+- Multiple Pro IDE subscriptions (Cursor + Copilot + Cody) — pick one, save money.
+- "AI security review" startup tools that charge $99/mo for what `claude --review` does for $0.20.
+- "AI code review" SaaS that's a wrapper around GPT — it's competitive with `claude --review` running in CI for free if you have Claude Code.
+
+## ROI math
+
+A working engineer in the US/EU costs roughly $80-150/hour fully loaded. If a $40/mo tool saves you 30 minutes a week, it's already paid for itself 8×. The upside ceiling for high-leverage uses (large refactors, test coverage in legacy code) is much higher.
+
+The mistake is *not* paying — it's paying for too many overlapping tools.

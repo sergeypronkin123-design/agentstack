@@ -1,0 +1,39 @@
+---
+const links = [
+  { href: '/tools', label: 'Tools' },
+  { href: '/recipes', label: 'Recipes' },
+  { href: '/compare', label: 'Compare' },
+  { href: '/about', label: 'About' },
+];
+const path = Astro.url.pathname;
+---
+
+<header class="sticky top-0 z-30 backdrop-blur-md bg-ink-950/70 border-b border-white/5">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-between gap-4">
+    <a href="/" class="flex items-center gap-2 group">
+      <div class="w-7 h-7 rounded-md bg-gradient-to-br from-accent-400 to-accent-600 grid place-items-center font-bold text-white text-sm shadow-lg group-hover:shadow-accent-500/30 transition-shadow">
+        A
+      </div>
+      <span class="font-bold tracking-tight">AgentStack</span>
+      <span class="hidden sm:inline text-xs text-slate-500">·</span>
+      <span class="hidden sm:inline text-xs text-slate-500">AI coding tools, organized</span>
+    </a>
+
+    <nav class="flex items-center gap-1 text-sm">
+      {links.map((l) => {
+        const active = path === l.href || (l.href !== '/' && path.startsWith(l.href));
+        return (
+          <a
+            href={l.href}
+            class:list={[
+              'px-3 py-1.5 rounded-md transition-colors',
+              active ? 'bg-accent-500/15 text-accent-400' : 'text-slate-300 hover:text-white hover:bg-white/5',
+            ]}
+          >
+            {l.label}
+          </a>
+        );
+      })}
+    </nav>
+  </div>
+</header>

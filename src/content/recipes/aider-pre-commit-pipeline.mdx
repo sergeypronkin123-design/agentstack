@@ -1,0 +1,66 @@
+---
+title: "Aider as a pre-commit hook: AI fixes your lint before you push"
+description: "Wire Aider into pre-commit so failed linters/types auto-fix on commit. Zero wait, zero context-switch."
+tools: ["aider"]
+difficulty: "intermediate"
+time_minutes: 20
+tags: ["pre-commit", "ci", "automation"]
+updated: "2026-04-30"
+---
+
+This recipe makes Aider the last line of defense between sloppy code and your remote. Lint fail? Aider fixes it. Type error? Aider fixes it. Test fail? Aider tries to fix it (and asks if it can't).
+
+## Setup
+
+```bash
+pip install aider-chat pre-commit
+```
+
+Add `.pre-commit-config.yaml` to your repo:
+
+```yaml
+repos:
+  - repo: local
+    hooks:
+      - id: aider-fix-lint
+        name: aider auto-fix lint
+        entry: bash -c 'ruff check . --fix --exit-zero || aider --no-stream --message "Fix the remaining lint issues. Run ruff check . to verify."'
+        language: system
+        pass_filenames: false
+        always_run: false
+        stages: [commit]
+```
+
+Install:
+
+```bash
+pre-commit install
+```
+
+## What happens on commit
+
+1. `ruff check . --fix` runs first (cheap, fixes 95% of issues).
+2. If anything's left, `aider` is invoked **non-interactively** with a fix-it prompt.
+3. Aider edits files, makes a commit, you re-run the hook → green.
+
+## Caveats
+
+- **Cost**: every commit could be a few API calls. For a busy repo this adds up. Set a daily budget alert in your provider dashboard.
+- **Loops**: if Aider can't fix the issue, the commit fails. That's correct behavior — don't `--no-verify` your way past it.
+- **Reviewability**: Aider commits with its own message. Configure a prefix like `chore(auto):` so they're easy to spot in `git log`.
+
+## Variation: type errors
+
+Same pattern with `mypy`:
+
+```yaml
+- id: aider-fix-types
+  entry: bash -c 'mypy src/ || aider --no-stream --message "Fix mypy errors. Run mypy src/ to verify."'
+```
+
+## When NOT to use this
+
+- On a team where commits are sacred — auto-edits will confuse PR reviewers.
+- On a security-sensitive codebase — auto-edits to crypto/auth code without human eyes is a recipe for CVEs.
+
+For those cases, run Aider in **CI** instead, on a separate branch the human reviews.

@@ -1,0 +1,39 @@
+{
+  "slug": "github-copilot",
+  "name": "GitHub Copilot",
+  "tagline": "GitHub's AI pair programmer — autocomplete, chat, and now Workspace agent.",
+  "category": "extension",
+  "pricing": {
+    "free_tier": true,
+    "paid_from_usd": 10,
+    "enterprise": true,
+    "notes": "Free for verified students/OSS maintainers; Individual $10; Business $19; Enterprise $39."
+  },
+  "homepage": "https://github.com/features/copilot",
+  "docs": "https://docs.github.com/en/copilot",
+  "open_source": false,
+  "license": "Proprietary",
+  "languages": ["any"],
+  "models_supported": ["gpt-5", "claude-sonnet-4-6", "o3-mini"],
+  "features": [
+    "Autocomplete in 30+ editors",
+    "Copilot Chat",
+    "Copilot Workspace (project-level agent)",
+    "Pull request reviews",
+    "CLI assistance",
+    "Knowledge bases for Enterprise"
+  ],
+  "integrations": ["VS Code", "JetBrains", "Neovim", "GitHub.com", "GitHub CLI"],
+  "pros": [
+    "Best editor coverage of any tool",
+    "Native GitHub integration",
+    "Strong enterprise sales motion"
+  ],
+  "cons": [
+    "Less aggressive on agentic capabilities than Claude Code/Cursor",
+    "Telemetry-heavy"
+  ],
+  "best_for": ["Teams already on GitHub Enterprise", "Multi-IDE shops"],
+  "avoid_if": ["You want cutting-edge agentic features", "You need OSS"],
+  "last_verified": "2026-04-30"
+}

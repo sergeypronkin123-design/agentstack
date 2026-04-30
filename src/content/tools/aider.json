@@ -1,0 +1,38 @@
+{
+  "slug": "aider",
+  "name": "Aider",
+  "tagline": "Pair-programming in your terminal. Git-native, model-agnostic, OSS.",
+  "category": "cli",
+  "pricing": {
+    "free_tier": true,
+    "notes": "Free; you bring your own API key."
+  },
+  "repo": "https://github.com/Aider-AI/aider",
+  "homepage": "https://aider.chat",
+  "docs": "https://aider.chat/docs",
+  "open_source": true,
+  "license": "Apache-2.0",
+  "languages": ["any"],
+  "models_supported": ["claude-sonnet-4-6", "gpt-5", "deepseek-v3.5", "any-via-litellm"],
+  "features": [
+    "Auto git commits per chat session",
+    "Repo-map for codebase context",
+    "Architect/Editor split (planner + applier)",
+    "Voice mode",
+    "Browser screenshots in context",
+    "Linting + test running with auto-fix"
+  ],
+  "integrations": ["LiteLLM (200+ models)", "Git", "Pre-commit"],
+  "pros": [
+    "Git-native — every change is a clean commit",
+    "Strong on existing codebase understanding via repo-map",
+    "Tiny dependency footprint"
+  ],
+  "cons": [
+    "Pure terminal UX, no IDE niceties",
+    "Less interactive than agent tools"
+  ],
+  "best_for": ["Solo devs in terminal-heavy workflows", "Open-source contributors", "Backend engineers"],
+  "avoid_if": ["You want GUI-driven UX", "Your team needs collaboration features"],
+  "last_verified": "2026-04-30"
+}

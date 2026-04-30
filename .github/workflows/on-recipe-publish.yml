@@ -1,0 +1,40 @@
+name: On recipe publish
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'src/content/recipes/**'
+
+permissions:
+  contents: read
+
+jobs:
+  tweet:
+    runs-on: ubuntu-latest
+    if: ${{ vars.AUTO_TWEET_ENABLED == 'true' }}
+    steps:
+      - uses: actions/checkout@v4
+        with: { fetch-depth: 2 }
+      - uses: actions/setup-node@v4
+        with: { node-version: 20 }
+      - run: npm ci
+      - name: Find new recipes in this commit
+        id: changed
+        run: |
+          NEW=$(git diff --name-only --diff-filter=A HEAD^ HEAD -- 'src/content/recipes/*.mdx' 'src/content/recipes/*.md' || true)
+          echo "new<<EOF" >> $GITHUB_OUTPUT
+          echo "$NEW" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+      - name: Post tweets for new recipes
+        if: steps.changed.outputs.new != ''
+        env:
+          X_API_KEY: ${{ secrets.X_API_KEY }}
+          X_API_SECRET: ${{ secrets.X_API_SECRET }}
+          X_ACCESS_TOKEN: ${{ secrets.X_ACCESS_TOKEN }}
+          X_ACCESS_SECRET: ${{ secrets.X_ACCESS_SECRET }}
+        run: |
+          for f in ${{ steps.changed.outputs.new }}; do
+            slug=$(basename "$f" | sed 's/\.[^.]*$//')
+            node scripts/auto-tweet.mjs "$slug" || true
+          done

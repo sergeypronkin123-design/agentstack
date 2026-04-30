@@ -1,0 +1,47 @@
+name: Weekly pricing check
+
+on:
+  schedule:
+    - cron: '0 8 * * 1'  # каждый понедельник 08:00 UTC
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+  issues: write
+
+jobs:
+  pricing:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 20 }
+      - run: npm ci
+      - name: Check pricing
+        run: node scripts/auto-pricing-check.mjs
+      - name: Commit state
+        run: |
+          git config user.name 'agentstack-bot'
+          git config user.email 'bot@agentstack.dev'
+          git add .automation/
+          if ! git diff --staged --quiet; then
+            git commit -m "chore(pricing): weekly check" && git push
+          fi
+      - name: Notify if changes
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const state = JSON.parse(fs.readFileSync('.automation/state.json', 'utf8'));
+            const recent = (state.pricing_changes ?? []).filter(c => {
+              const d = (Date.now() - new Date(c.detected_at).getTime()) / 86400000;
+              return d <= 7;
+            });
+            if (!recent.length) return;
+            const body = recent.map(c => `- **${c.tool}**: $${c.old}/mo → $${c.new}/mo (${c.source})`).join('\n');
+            await github.rest.issues.create({
+              ...context.repo,
+              title: `Pricing changes: ${recent.length} tool(s)`,
+              body: `Verify and update tool JSONs:\n\n${body}`,
+              labels: ['pricing', 'automated']
+            });

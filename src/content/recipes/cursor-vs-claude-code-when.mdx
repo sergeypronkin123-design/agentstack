@@ -1,0 +1,51 @@
+---
+title: "When to reach for Cursor vs Claude Code (decision tree)"
+description: "Both tools are great. They're great at different things. Here's how to pick in 30 seconds."
+tools: ["cursor", "claude-code"]
+difficulty: "beginner"
+time_minutes: 5
+tags: ["decision-tree", "comparison"]
+updated: "2026-04-30"
+---
+
+If you're already paying for both, congrats — you have the optimal setup. For everyone else, here's the honest decision tree.
+
+## TL;DR
+
+| Situation | Reach for |
+|---|---|
+| Tab autocomplete is your bread & butter | **Cursor** |
+| Multi-step refactor across 20 files | **Claude Code** |
+| You live in the terminal | **Claude Code** |
+| You live in VS Code | **Cursor** |
+| You need MCP servers (Linear, GitHub, etc.) | **Claude Code** |
+| You want to inline-edit a single function fast | **Cursor** (Cmd-K) |
+| You're delegating end-to-end tasks while you do other things | **Claude Code** with subagents |
+
+## The single test that decides it
+
+Ask yourself: *"Do I want AI to assist my typing, or do I want AI to do tasks while I'm not looking?"*
+
+- **Assist while typing** → Cursor.
+- **Do tasks autonomously** → Claude Code.
+
+## Common multi-tool setups
+
+Most senior engineers don't pick one — they layer:
+
+1. **Cursor** for daily coding (autocomplete + inline edits).
+2. **Claude Code** in a terminal tab for big refactors, agents, automated workflows.
+3. **Aider** in CI for "fix this stack trace" type batch jobs.
+
+Total cost: ~$40/mo. ROI: easily 10× in saved hours if you're a working engineer.
+
+## What about Cline / Continue / Roo?
+
+If you don't want to pay or you want OSS:
+- **Cline** is the closest to Claude Code's "agentic" feel.
+- **Continue** is the closest to Cursor's autocomplete feel (in VS Code or JetBrains).
+- **Roo Code** is Cline with extra modes — try if you outgrow Cline.
+
+## Updated 2026-04-30
+
+Pricing and capabilities change monthly in this space. Re-check tool detail pages — they auto-update from each project's GitHub.
