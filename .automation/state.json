@@ -1,8 +1,16 @@
 {
-  "last_runs": {},
+  "last_runs": {
+    "health": {
+      "iso": "2026-04-30T06:33:33.081Z",
+      "issues": 0
+    }
+  },
   "discovered_tools": [],
   "pricing_changes": [],
   "health_issues": [],
-  "pipeline": { "drafts": [], "queued_ideas": [] },
+  "pipeline": {
+    "drafts": [],
+    "queued_ideas": []
+  },
   "_note": "Initial state. Будет наполняться по мере запусков GitHub Actions."
 }
