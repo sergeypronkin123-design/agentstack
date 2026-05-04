@@ -3,6 +3,10 @@
     "health": {
       "iso": "2026-05-04T06:46:25.871Z",
       "issues": 0
+    },
+    "pricing": {
+      "iso": "2026-05-04T10:20:59.180Z",
+      "changes": 0
     }
   },
   "discovered_tools": [],
