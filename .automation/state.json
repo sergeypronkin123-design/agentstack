@@ -12,11 +12,19 @@
       "iso": "2026-05-18T13:50:53.794Z"
     },
     "discover": {
-      "iso": "2026-05-13T11:33:12.886Z",
-      "found": 0
+      "iso": "2026-05-20T11:51:50.468Z",
+      "found": 1
     }
   },
-  "discovered_tools": [],
+  "discovered_tools": [
+    {
+      "name": "Yt-x",
+      "title": "Show HN: Yt-x v0.8.0 – Browse, play, and download YouTube from the terminal",
+      "url": "https://github.com/Benexl/yt-x",
+      "source": "HN",
+      "first_seen": "2026-05-20"
+    }
+  ],
   "pricing_changes": [],
   "health_issues": [
     {
