@@ -1,8 +1,8 @@
 {
   "last_runs": {
     "health": {
-      "iso": "2026-05-20T07:52:33.028Z",
-      "issues": 1
+      "iso": "2026-05-21T07:59:27.044Z",
+      "issues": 0
     },
     "pricing": {
       "iso": "2026-05-18T11:50:31.179Z",
@@ -26,17 +26,7 @@
     }
   ],
   "pricing_changes": [],
-  "health_issues": [
-    {
-      "tool": "Claude Code",
-      "slug": "claude-code",
-      "kind": "docs",
-      "url": "https://docs.claude.com/en/docs/claude-code",
-      "status": 0,
-      "error": "AbortError",
-      "checked_at": "2026-05-20"
-    }
-  ],
+  "health_issues": [],
   "pipeline": {
     "drafts": [],
     "queued_ideas": []
