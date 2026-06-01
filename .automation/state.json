@@ -5,8 +5,8 @@
       "issues": 0
     },
     "pricing": {
-      "iso": "2026-05-25T11:57:50.131Z",
-      "changes": 0
+      "iso": "2026-06-01T13:47:31.792Z",
+      "changes": 1
     },
     "newsletter": {
       "iso": "2026-05-25T13:31:44.577Z"
@@ -25,7 +25,16 @@
       "first_seen": "2026-05-20"
     }
   ],
-  "pricing_changes": [],
+  "pricing_changes": [
+    {
+      "tool": "GitHub Copilot",
+      "slug": "github-copilot",
+      "old": 10,
+      "new": 100,
+      "detected_at": "2026-06-01",
+      "source": "https://github.com/features/copilot"
+    }
+  ],
   "health_issues": [],
   "pipeline": {
     "drafts": [],
