@@ -12,8 +12,8 @@
       "iso": "2026-06-15T15:48:51.687Z"
     },
     "discover": {
-      "iso": "2026-06-10T12:27:12.932Z",
-      "found": 0
+      "iso": "2026-06-17T12:54:31.909Z",
+      "found": 1
     }
   },
   "discovered_tools": [
@@ -30,6 +30,13 @@
       "url": "https://github.com/getpaseo/paseo",
       "source": "HN",
       "first_seen": "2026-06-03"
+    },
+    {
+      "name": "Fata",
+      "title": "Show HN: Fata – Spaced repetition to fight skill rot from AI coding",
+      "url": "https://fata.dev",
+      "source": "HN",
+      "first_seen": "2026-06-17"
     }
   ],
   "pricing_changes": [
