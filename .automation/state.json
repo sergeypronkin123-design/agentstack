@@ -12,8 +12,8 @@
       "iso": "2026-07-13T12:33:40.279Z"
     },
     "discover": {
-      "iso": "2026-07-08T11:08:56.918Z",
-      "found": 0
+      "iso": "2026-07-15T10:55:04.783Z",
+      "found": 2
     }
   },
   "discovered_tools": [
@@ -37,6 +37,20 @@
       "url": "https://fata.dev",
       "source": "HN",
       "first_seen": "2026-06-17"
+    },
+    {
+      "name": "Juggler",
+      "title": "Show HN: Juggler – an open-source GUI coding agent, by the creator of JUCE",
+      "url": "https://github.com/juggler-ai/juggler",
+      "source": "HN",
+      "first_seen": "2026-07-15"
+    },
+    {
+      "name": "Clawk",
+      "title": "Show HN: Clawk – Give coding agents a disposable Linux VM, not your laptop",
+      "url": "https://github.com/clawkwork/clawk",
+      "source": "HN",
+      "first_seen": "2026-07-15"
     }
   ],
   "pricing_changes": [
