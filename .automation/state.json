@@ -12,8 +12,8 @@
       "iso": "2026-07-20T12:18:44.048Z"
     },
     "discover": {
-      "iso": "2026-07-15T10:55:04.783Z",
-      "found": 2
+      "iso": "2026-07-22T11:12:25.867Z",
+      "found": 1
     }
   },
   "discovered_tools": [
@@ -51,6 +51,13 @@
       "url": "https://github.com/clawkwork/clawk",
       "source": "HN",
       "first_seen": "2026-07-15"
+    },
+    {
+      "name": "An",
+      "title": "Show HN: An MCP server that turns async-work practices into tools",
+      "url": "https://github.com/open-and-async/mcp",
+      "source": "HN",
+      "first_seen": "2026-07-22"
     }
   ],
   "pricing_changes": [
