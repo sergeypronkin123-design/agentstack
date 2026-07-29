@@ -12,7 +12,7 @@
       "iso": "2026-07-27T12:56:19.692Z"
     },
     "discover": {
-      "iso": "2026-07-22T11:12:25.867Z",
+      "iso": "2026-07-29T11:29:02.904Z",
       "found": 1
     }
   },
@@ -58,6 +58,13 @@
       "url": "https://github.com/open-and-async/mcp",
       "source": "HN",
       "first_seen": "2026-07-22"
+    },
+    {
+      "name": "Formally",
+      "title": "Show HN: Formally verified 3D CSG: Trust 93 lines spec, not 1000 lines AI code",
+      "url": "https://github.com/schildep/verified-3d-mesh-intersection",
+      "source": "HN",
+      "first_seen": "2026-07-29"
     }
   ],
   "pricing_changes": [
