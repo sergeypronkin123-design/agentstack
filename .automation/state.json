@@ -12,8 +12,8 @@
       "iso": "2026-08-10T11:10:59.219Z"
     },
     "discover": {
-      "iso": "2026-08-05T11:23:51.623Z",
-      "found": 0
+      "iso": "2026-08-12T10:11:25.324Z",
+      "found": 1
     }
   },
   "discovered_tools": [
@@ -65,6 +65,13 @@
       "url": "https://github.com/schildep/verified-3d-mesh-intersection",
       "source": "HN",
       "first_seen": "2026-07-29"
+    },
+    {
+      "name": "Ante",
+      "title": "Show HN: Ante, a coding agent in a single binary that runs offline",
+      "url": "https://github.com/AntigmaLabs/ante",
+      "source": "HN",
+      "first_seen": "2026-08-12"
     }
   ],
   "pricing_changes": [
