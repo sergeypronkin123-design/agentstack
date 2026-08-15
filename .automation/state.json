@@ -1,8 +1,8 @@
 {
   "last_runs": {
     "health": {
-      "iso": "2026-08-14T05:41:44.411Z",
-      "issues": 0
+      "iso": "2026-08-15T04:37:30.830Z",
+      "issues": 1
     },
     "pricing": {
       "iso": "2026-08-10T09:40:08.288Z",
@@ -244,7 +244,17 @@
       "source": "https://codeium.com/windsurf"
     }
   ],
-  "health_issues": [],
+  "health_issues": [
+    {
+      "tool": "Windsurf",
+      "slug": "windsurf",
+      "kind": "homepage",
+      "url": "https://codeium.com/windsurf",
+      "status": 429,
+      "error": null,
+      "checked_at": "2026-08-15"
+    }
+  ],
   "pipeline": {
     "drafts": [],
     "queued_ideas": []
