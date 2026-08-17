@@ -5,8 +5,8 @@
       "issues": 1
     },
     "pricing": {
-      "iso": "2026-08-10T09:40:08.288Z",
-      "changes": 2
+      "iso": "2026-08-17T08:51:44.582Z",
+      "changes": 1
     },
     "newsletter": {
       "iso": "2026-08-10T11:10:59.219Z"
@@ -242,6 +242,14 @@
       "new": 40,
       "detected_at": "2026-08-10",
       "source": "https://codeium.com/windsurf"
+    },
+    {
+      "tool": "GitHub Copilot",
+      "slug": "github-copilot",
+      "old": 10,
+      "new": 100,
+      "detected_at": "2026-08-17",
+      "source": "https://github.com/features/copilot"
     }
   ],
   "health_issues": [
