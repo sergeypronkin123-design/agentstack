@@ -1,7 +1,7 @@
 {
   "last_runs": {
     "health": {
-      "iso": "2026-08-30T09:52:05.586Z",
+      "iso": "2026-08-31T10:43:47.513Z",
       "issues": 1
     },
     "pricing": {
@@ -268,7 +268,7 @@
       "url": "https://codeium.com/windsurf",
       "status": 429,
       "error": null,
-      "checked_at": "2026-08-30"
+      "checked_at": "2026-08-31"
     }
   ],
   "pipeline": {
