@@ -12,8 +12,8 @@
       "iso": "2026-09-07T15:36:33.874Z"
     },
     "discover": {
-      "iso": "2026-09-02T13:27:49.040Z",
-      "found": 0
+      "iso": "2026-09-09T13:36:46.498Z",
+      "found": 1
     }
   },
   "discovered_tools": [
@@ -72,6 +72,13 @@
       "url": "https://github.com/AntigmaLabs/ante",
       "source": "HN",
       "first_seen": "2026-08-12"
+    },
+    {
+      "name": "Copperhead",
+      "title": "Show HN: Copperhead – Cursor for circuit boards",
+      "url": "https://copperhead.sh/",
+      "source": "HN",
+      "first_seen": "2026-09-09"
     }
   ],
   "pricing_changes": [
