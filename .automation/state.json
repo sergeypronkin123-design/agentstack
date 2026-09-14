@@ -5,7 +5,7 @@
       "issues": 1
     },
     "pricing": {
-      "iso": "2026-09-07T14:09:55.184Z",
+      "iso": "2026-09-14T14:55:55.798Z",
       "changes": 1
     },
     "newsletter": {
@@ -280,6 +280,14 @@
       "old": 10,
       "new": 100,
       "detected_at": "2026-09-07",
+      "source": "https://github.com/features/copilot"
+    },
+    {
+      "tool": "GitHub Copilot",
+      "slug": "github-copilot",
+      "old": 10,
+      "new": 100,
+      "detected_at": "2026-09-14",
       "source": "https://github.com/features/copilot"
     }
   ],
