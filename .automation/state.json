@@ -1,8 +1,8 @@
 {
   "last_runs": {
     "health": {
-      "iso": "2026-09-16T09:12:33.373Z",
-      "issues": 1
+      "iso": "2026-09-17T09:20:44.520Z",
+      "issues": 0
     },
     "pricing": {
       "iso": "2026-09-14T14:55:55.798Z",
@@ -291,17 +291,7 @@
       "source": "https://github.com/features/copilot"
     }
   ],
-  "health_issues": [
-    {
-      "tool": "Windsurf",
-      "slug": "windsurf",
-      "kind": "homepage",
-      "url": "https://codeium.com/windsurf",
-      "status": 429,
-      "error": null,
-      "checked_at": "2026-09-16"
-    }
-  ],
+  "health_issues": [],
   "pipeline": {
     "drafts": [],
     "queued_ideas": []
