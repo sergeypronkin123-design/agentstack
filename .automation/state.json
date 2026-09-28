@@ -5,7 +5,7 @@
       "issues": 0
     },
     "pricing": {
-      "iso": "2026-09-21T15:00:57.315Z",
+      "iso": "2026-09-28T16:40:36.751Z",
       "changes": 2
     },
     "newsletter": {
@@ -304,6 +304,22 @@
       "old": 15,
       "new": 40,
       "detected_at": "2026-09-21",
+      "source": "https://codeium.com/windsurf"
+    },
+    {
+      "tool": "GitHub Copilot",
+      "slug": "github-copilot",
+      "old": 10,
+      "new": 100,
+      "detected_at": "2026-09-28",
+      "source": "https://github.com/features/copilot"
+    },
+    {
+      "tool": "Windsurf",
+      "slug": "windsurf",
+      "old": 15,
+      "new": 40,
+      "detected_at": "2026-09-28",
       "source": "https://codeium.com/windsurf"
     }
   ],
