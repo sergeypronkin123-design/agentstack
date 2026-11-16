@@ -5,7 +5,7 @@
       "issues": 0
     },
     "pricing": {
-      "iso": "2026-11-09T18:37:14.111Z",
+      "iso": "2026-11-16T18:16:20.746Z",
       "changes": 1
     },
     "newsletter": {
@@ -421,6 +421,14 @@
       "old": 15,
       "new": 40,
       "detected_at": "2026-11-09",
+      "source": "https://codeium.com/windsurf"
+    },
+    {
+      "tool": "Windsurf",
+      "slug": "windsurf",
+      "old": 15,
+      "new": 40,
+      "detected_at": "2026-11-16",
       "source": "https://codeium.com/windsurf"
     }
   ],
